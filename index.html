@@ -12,11 +12,11 @@
     <style>
         :root {
             /* Sophisticated Oxford Navy and Earthy Forest Palette */
-            --brand-primary: #0a0f1a; /* Deeper Oxford Navy */
-            --brand-secondary: #4f46e5; /* Electric Indigo */
-            --brand-emerald: #065f46; /* Earthy Forest Green */
-            --brand-paper: #fdfdfc; /* Warm Ivory Bone */
-            --brand-accent-gold: #b45309; /* Burnished Copper/Gold */
+            --brand-primary: #0a0f1a; 
+            --brand-secondary: #4f46e5;
+            --brand-emerald: #065f46;
+            --brand-paper: #fdfdfc;
+            --brand-accent-gold: #b45309;
             --brand-border: rgba(10, 15, 26, 0.05);
             --transition-premium: cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -27,7 +27,7 @@
             color: #1e293b;
             -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
-            letter-spacing: -0.011em;
+            letter-spacing: -0.015em;
             padding-bottom: env(safe-area-inset-bottom);
         }
         
@@ -36,7 +36,7 @@
         /* Institutional Glass & Textures */
         .glass-premium {
             background: rgba(255, 255, 255, 0.82);
-            backdrop-filter: blur(32px) saturate(190%);
+            backdrop-filter: blur(48px) saturate(210%);
             border: 1px solid rgba(255, 255, 255, 0.4);
         }
 
@@ -45,28 +45,28 @@
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
             z-index: 9999;
-            opacity: 0.018;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.022;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
         /* Sophisticated Scrollbar */
-        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+        ::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 20px; }
+        ::-webkit-scrollbar-thumb:hover { background: #cbd5e1; }
 
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
         @keyframes subtle-float {
             0% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
+            50% { transform: translateY(-12px); }
             100% { transform: translateY(0px); }
         }
-        .animate-subtle { animation: subtle-float 10s ease-in-out infinite; }
+        .animate-subtle { animation: subtle-float 12s var(--transition-premium) infinite; }
 
         .active-nav-glow {
-            box-shadow: 0 0 40px -10px rgba(79, 70, 229, 0.25);
+            box-shadow: 0 0 64px -16px rgba(79, 70, 229, 0.3);
         }
 
         .bg-oxford-navy { background-color: var(--brand-primary); }
@@ -82,18 +82,18 @@
             background: white;
             border: 1px solid var(--brand-border);
             border-radius: 2.5rem;
-            transition: all 0.6s var(--transition-premium);
+            transition: all 0.8s var(--transition-premium);
         }
 
         .card-premium:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 48px 128px -32px rgba(0,0,0,0.08);
-            border-color: rgba(79, 70, 229, 0.1);
+            transform: translateY(-8px);
+            box-shadow: 0 64px 128px -32px rgba(10,15,26,0.12);
+            border-color: rgba(79, 70, 229, 0.15);
         }
 
         @media (max-width: 640px) {
             .glass-premium {
-                backdrop-filter: blur(16px) saturate(150%);
+                backdrop-filter: blur(24px) saturate(160%);
             }
         }
     </style>

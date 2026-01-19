@@ -5,7 +5,7 @@ import { RealEstateDeal } from '../types';
 import { 
   ShieldCheck, ArrowRight, Printer, AlertTriangle, Calculator, 
   FileText, CheckCircle2, History, Trash2, ExternalLink, 
-  TrendingUp, BarChart4, Globe
+  TrendingUp, BarChart4, Globe, Loader2, AlertCircle
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -19,6 +19,7 @@ const LogoMark: React.FC<{ className?: string, color?: string }> = ({ className 
 const Underwriting: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [history, setHistory] = useState<any[]>([]);
   const [deal, setDeal] = useState<RealEstateDeal>({
     propertyType: '',
@@ -29,7 +30,6 @@ const Underwriting: React.FC = () => {
     rentalIncome: 0
   });
 
-  // Load history from localStorage on mount
   useEffect(() => {
     const savedHistory = localStorage.getItem('underwriting_history');
     if (savedHistory) {
@@ -41,13 +41,24 @@ const Underwriting: React.FC = () => {
     }
   }, []);
 
-  // Save history to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem('underwriting_history', JSON.stringify(history));
   }, [history]);
 
+  const validate = () => {
+    const e: Record<string, string> = {};
+    if (!deal.propertyType.trim()) e.propertyType = "Define asset class.";
+    if (!deal.location.trim()) e.location = "Node location required.";
+    if (deal.purchasePrice <= 0) e.purchasePrice = "Acquisition > 0.";
+    if (deal.arv <= 0) e.arv = "Target ARV > 0.";
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
+
   const handleUnderwrite = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validate()) return;
+    
     setLoading(true);
     try {
       const evaluation = await underwriteRealEstate(deal);
@@ -58,10 +69,10 @@ const Underwriting: React.FC = () => {
         inputs: { ...deal }
       };
       setResult(newArtifact);
-      setHistory(prev => [newArtifact, ...prev].slice(0, 10)); // Keep last 10 tranches
+      setHistory(prev => [newArtifact, ...prev].slice(0, 10));
     } catch (error) {
       console.error(error);
-      alert("Institutional node timeout.");
+      setErrors({ global: "Institutional node timeout." });
     } finally {
       setLoading(false);
     }
@@ -74,20 +85,25 @@ const Underwriting: React.FC = () => {
   const loadHistoryItem = (item: any) => {
     setResult(item);
     setDeal(item.inputs);
+    setErrors({});
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const InputGroup = ({ label, suffix, prefix, ...props }: any) => (
+  const InputGroup = ({ label, suffix, prefix, field, ...props }: any) => (
     <div className="space-y-2 sm:space-y-3">
       <label className="text-[10px] sm:text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] sm:tracking-[0.4em] ml-1">{label}</label>
       <div className="relative group">
         {prefix && <span className="absolute left-5 sm:left-6 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">{prefix}</span>}
         <input 
           {...props}
-          className={`w-full bg-slate-50 border border-slate-100 rounded-xl sm:rounded-2xl py-5 sm:py-6 text-slate-900 focus:bg-white focus:border-indigo-500 outline-none transition-all shadow-inner text-sm sm:text-[15px] font-medium ${prefix ? 'pl-10 sm:pl-11' : 'pl-6 sm:pl-7'} ${suffix ? 'pr-12 sm:pr-14' : 'pr-6 sm:pr-7'}`}
+          className={`w-full bg-slate-50 border rounded-xl sm:rounded-2xl py-5 sm:py-6 text-slate-900 outline-none transition-all shadow-inner text-sm sm:text-[15px] font-medium 
+            ${errors[field] ? 'border-rose-500 bg-rose-50/30' : 'border-slate-100 focus:bg-white focus:border-indigo-500'}
+            ${prefix ? 'pl-10 sm:pl-11' : 'pl-6 sm:pl-7'} 
+            ${suffix ? 'pr-12 sm:pr-14' : 'pr-6 sm:pr-7'}`}
         />
         {suffix && <span className="absolute right-5 sm:right-6 top-1/2 -translate-y-1/2 text-slate-300 font-black text-[9px] sm:text-[10px] uppercase tracking-widest">{suffix}</span>}
       </div>
+      {errors[field] && <p className="text-[9px] text-rose-500 font-bold uppercase tracking-widest ml-1">{errors[field]}</p>}
     </div>
   );
 
@@ -120,7 +136,6 @@ const Underwriting: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 sm:gap-24 items-start">
-          {/* Submission Panel */}
           <motion.div 
             initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }}
             className="lg:col-span-5 space-y-10 sm:space-y-12"
@@ -133,61 +148,63 @@ const Underwriting: React.FC = () => {
                         </div>
                         <h2 className="text-[12px] sm:text-[14px] font-black text-[#0a0f1a] uppercase tracking-[0.3em] sm:tracking-[0.4em]">Submission</h2>
                     </div>
-                    {result && (
-                       <button onClick={() => { setResult(null); setDeal({ propertyType: '', location: '', purchasePrice: 0, estimatedRenovation: 0, arv: 0, rentalIncome: 0 }); }} className="text-[9px] sm:text-[11px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] text-indigo-600 border-b border-indigo-100 pb-1">Clear</button>
+                    {(result || Object.keys(errors).length > 0) && (
+                       <button onClick={() => { setResult(null); setErrors({}); setDeal({ propertyType: '', location: '', purchasePrice: 0, estimatedRenovation: 0, arv: 0, rentalIncome: 0 }); }} className="text-[9px] sm:text-[11px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] text-indigo-600 border-b border-indigo-100 pb-1">Reset Node</button>
                     )}
                 </div>
                 
                 <form onSubmit={handleUnderwrite} className="space-y-8 sm:space-y-10">
                 <InputGroup 
                     label="Asset Class" 
+                    field="propertyType"
                     placeholder="e.g. Multi-family"
                     value={deal.propertyType}
-                    onChange={(e: any) => setDeal({...deal, propertyType: e.target.value})}
-                    required 
+                    onChange={(e: any) => { setDeal({...deal, propertyType: e.target.value}); if (errors.propertyType) setErrors(prev => ({...prev, propertyType: ''})); }}
                 />
                 
                 <InputGroup 
                     label="Geographic Node" 
+                    field="location"
                     placeholder="City, State"
                     value={deal.location}
-                    onChange={(e: any) => setDeal({...deal, location: e.target.value})}
-                    required 
+                    onChange={(e: any) => { setDeal({...deal, location: e.target.value}); if (errors.location) setErrors(prev => ({...prev, location: ''})); }}
                 />
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                     <InputGroup 
-                    label="Acquisition" 
-                    type="number" 
-                    prefix="$"
-                    value={deal.purchasePrice || ''}
-                    onChange={(e: any) => setDeal({...deal, purchasePrice: Number(e.target.value)})}
-                    required 
+                      label="Acquisition" 
+                      field="purchasePrice"
+                      type="number" 
+                      prefix="$"
+                      value={deal.purchasePrice || ''}
+                      onChange={(e: any) => { setDeal({...deal, purchasePrice: Number(e.target.value)}); if (errors.purchasePrice) setErrors(prev => ({...prev, purchasePrice: ''})); }}
                     />
                     <InputGroup 
-                    label="Capex" 
-                    type="number" 
-                    prefix="$"
-                    value={deal.estimatedRenovation || ''}
-                    onChange={(e: any) => setDeal({...deal, estimatedRenovation: Number(e.target.value)})}
+                      label="Capex" 
+                      field="estimatedRenovation"
+                      type="number" 
+                      prefix="$"
+                      value={deal.estimatedRenovation || ''}
+                      onChange={(e: any) => setDeal({...deal, estimatedRenovation: Number(e.target.value)})}
                     />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                     <InputGroup 
-                    label="Target ARV" 
-                    type="number" 
-                    prefix="$"
-                    value={deal.arv || ''}
-                    onChange={(e: any) => setDeal({...deal, arv: Number(e.target.value)})}
-                    required 
+                      label="Target ARV" 
+                      field="arv"
+                      type="number" 
+                      prefix="$"
+                      value={deal.arv || ''}
+                      onChange={(e: any) => { setDeal({...deal, arv: Number(e.target.value)}); if (errors.arv) setErrors(prev => ({...prev, arv: ''})); }}
                     />
                     <InputGroup 
-                    label="Monthly Yield" 
-                    type="number" 
-                    prefix="$"
-                    value={deal.rentalIncome || ''}
-                    onChange={(e: any) => setDeal({...deal, rentalIncome: Number(e.target.value)})}
+                      label="Monthly Yield" 
+                      field="rentalIncome"
+                      type="number" 
+                      prefix="$"
+                      value={deal.rentalIncome || ''}
+                      onChange={(e: any) => setDeal({...deal, rentalIncome: Number(e.target.value)})}
                     />
                 </div>
 
@@ -214,7 +231,6 @@ const Underwriting: React.FC = () => {
                 </form>
             </div>
 
-            {/* Historical Section */}
             <div className="bg-[#f2f2ef] p-8 sm:p-12 rounded-[2.5rem] sm:rounded-[3.5rem] border border-slate-200/50">
                <div className="flex items-center space-x-4 sm:space-x-5 mb-8 sm:mb-10">
                   <History className="text-slate-400" size={20} sm:size={24} />
@@ -239,7 +255,7 @@ const Underwriting: React.FC = () => {
                             </div>
                             <div className="truncate">
                                <p className="font-black text-[#0a0f1a] text-[13px] sm:text-[15px] truncate">{item.inputs.propertyType}</p>
-                               <p className="text-[9px] sm:text-[10px] text-slate-400 font-black uppercase tracking-[0.1em] mt-1 sm:mt-1.5 truncate">{item.inputs.location}</p>
+                               <p className="text-[9px] sm:text-[10px] text-slate-400 font-black uppercase tracking-[0.1em] mt-1.5 sm:mt-1.5 truncate">{item.inputs.location}</p>
                             </div>
                          </div>
                          <div className="flex items-center space-x-2 sm:space-x-4 ml-4">
@@ -260,7 +276,6 @@ const Underwriting: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* Result Visualization */}
           <div className="lg:col-span-7 flex flex-col h-full min-h-[600px] sm:min-h-[800px]">
             <AnimatePresence mode="wait">
               {result ? (

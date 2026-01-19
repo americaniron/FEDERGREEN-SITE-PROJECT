@@ -2,12 +2,13 @@
 import React, { useState } from 'react';
 import { getBusinessValuation } from '../services/geminiService';
 import { ValuationData } from '../types';
-import { Calculator, ArrowRight, TrendingUp, Info, BarChart3, ShieldCheck, Landmark, Target } from 'lucide-react';
+import { Calculator, ArrowRight, TrendingUp, Info, BarChart3, ShieldCheck, Landmark, Target, AlertCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Valuation: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [formData, setFormData] = useState<ValuationData>({
     businessName: '',
     industry: '',
@@ -17,19 +18,38 @@ const Valuation: React.FC = () => {
     description: ''
   });
 
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+    if (!formData.businessName.trim()) newErrors.businessName = "Entity name is required.";
+    if (!formData.industry.trim()) newErrors.industry = "Industry node must be defined.";
+    if (formData.annualRevenue <= 0) newErrors.annualRevenue = "Revenue must be positive.";
+    if (formData.ebitda === 0) newErrors.ebitda = "EBITDA cannot be zero.";
+    if (formData.description.length < 20) newErrors.description = "Provide more strategic context (min 20 chars).";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleValuate = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validate()) return;
+    
     setLoading(true);
+    setResult(null);
     try {
       const evaluation = await getBusinessValuation(formData);
       setResult(evaluation);
     } catch (error) {
       console.error(error);
-      alert("Valuation engine error.");
+      setErrors({ global: "Institutional node error. Heuristic sync failed." });
     } finally {
       setLoading(false);
     }
   };
+
+  const inputClasses = (field: string) => `
+    w-full bg-slate-50 border rounded-xl sm:rounded-2xl px-6 sm:px-8 py-5 sm:py-6 text-[#0a0f1a] font-black outline-none transition-all shadow-inner text-sm sm:text-[15px]
+    ${errors[field] ? 'border-rose-500 bg-rose-50/30' : 'border-slate-100 focus:bg-white focus:border-[#0a0f1a]'}
+  `;
 
   return (
     <div className="bg-[#fdfdfc] min-h-screen py-24 sm:py-40 px-6 sm:px-10 lg:px-32">
@@ -49,11 +69,21 @@ const Valuation: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 sm:gap-24 items-start">
           <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1 }} className="lg:col-span-5 bg-white p-8 sm:p-14 rounded-[2.5rem] sm:rounded-[4rem] border border-slate-100 shadow-xl space-y-10 sm:space-y-12 glass-premium">
-            <div className="flex items-center space-x-4 sm:space-x-5">
-              <div className="w-12 h-12 sm:w-14 sm:h-14 bg-emerald-50 rounded-[1.5rem] sm:rounded-[1.8rem] flex items-center justify-center text-emerald-700 shadow-inner">
-                  <Calculator size={20} sm:size={24} />
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4 sm:space-x-5">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-emerald-50 rounded-[1.5rem] sm:rounded-[1.8rem] flex items-center justify-center text-emerald-700 shadow-inner">
+                    <Calculator size={20} sm:size={24} />
+                </div>
+                <h2 className="text-[12px] sm:text-[14px] font-black text-[#0a0f1a] uppercase tracking-[0.3em] sm:tracking-[0.4em]">Submission</h2>
               </div>
-              <h2 className="text-[12px] sm:text-[14px] font-black text-[#0a0f1a] uppercase tracking-[0.3em] sm:tracking-[0.4em]">Submission</h2>
+              <AnimatePresence>
+                {Object.keys(errors).length > 0 && (
+                  <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} className="flex items-center text-rose-500 space-x-2">
+                    <AlertCircle size={14} />
+                    <span className="text-[10px] font-black uppercase tracking-widest">Errors Found</span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
             <form onSubmit={handleValuate} className="space-y-8 sm:space-y-10">
@@ -61,24 +91,30 @@ const Valuation: React.FC = () => {
                 <label className="text-[10px] sm:text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] sm:tracking-[0.4em] ml-2">Entity Name</label>
                 <input 
                   type="text" 
-                  className="w-full bg-slate-50 border border-slate-100 rounded-xl sm:rounded-2xl px-6 sm:px-8 py-5 sm:py-6 text-[#0a0f1a] font-black focus:bg-white outline-none transition-all shadow-inner text-sm sm:text-[15px]" 
+                  className={inputClasses('businessName')}
                   value={formData.businessName}
-                  onChange={e => setFormData({...formData, businessName: e.target.value})}
-                  required 
+                  onChange={e => {
+                    setFormData({...formData, businessName: e.target.value});
+                    if (errors.businessName) setErrors(prev => ({ ...prev, businessName: '' }));
+                  }}
                   placeholder="Full Legal Title"
                 />
+                {errors.businessName && <motion.p initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} className="text-[10px] text-rose-500 font-bold uppercase tracking-widest ml-2">{errors.businessName}</motion.p>}
               </div>
               
               <div className="space-y-3">
                 <label className="text-[10px] sm:text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] sm:tracking-[0.5em] ml-2">Industry Node</label>
                 <input 
                   type="text" 
-                  className="w-full bg-slate-50 border border-slate-100 rounded-xl sm:rounded-2xl px-6 sm:px-8 py-5 sm:py-6 text-[#0a0f1a] font-black focus:bg-white outline-none transition-all shadow-inner text-sm sm:text-[15px]" 
+                  className={inputClasses('industry')}
                   value={formData.industry}
-                  onChange={e => setFormData({...formData, industry: e.target.value})}
-                  required 
+                  onChange={e => {
+                    setFormData({...formData, industry: e.target.value});
+                    if (errors.industry) setErrors(prev => ({ ...prev, industry: '' }));
+                  }}
                   placeholder="e.g. Fintech"
                 />
+                {errors.industry && <motion.p initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} className="text-[10px] text-rose-500 font-bold uppercase tracking-widest ml-2">{errors.industry}</motion.p>}
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
@@ -86,21 +122,27 @@ const Valuation: React.FC = () => {
                   <label className="text-[10px] sm:text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] sm:tracking-[0.5em] ml-2">Revenue ($)</label>
                   <input 
                     type="number" 
-                    className="w-full bg-slate-50 border border-slate-100 rounded-xl sm:rounded-2xl px-6 sm:px-8 py-5 sm:py-6 text-[#0a0f1a] font-black focus:bg-white outline-none transition-all shadow-inner text-sm sm:text-[15px]" 
+                    className={inputClasses('annualRevenue')}
                     value={formData.annualRevenue || ''}
-                    onChange={e => setFormData({...formData, annualRevenue: Number(e.target.value)})}
-                    required 
+                    onChange={e => {
+                      setFormData({...formData, annualRevenue: Number(e.target.value)});
+                      if (errors.annualRevenue) setErrors(prev => ({ ...prev, annualRevenue: '' }));
+                    }}
                   />
+                  {errors.annualRevenue && <motion.p initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} className="text-[10px] text-rose-500 font-bold uppercase tracking-widest ml-2">{errors.annualRevenue}</motion.p>}
                 </div>
                 <div className="space-y-3">
                   <label className="text-[10px] sm:text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] sm:tracking-[0.5em] ml-2">EBITDA ($)</label>
                   <input 
                     type="number" 
-                    className="w-full bg-slate-50 border border-slate-100 rounded-xl sm:rounded-2xl px-6 sm:px-8 py-5 sm:py-6 text-[#0a0f1a] font-black focus:bg-white outline-none transition-all shadow-inner text-sm sm:text-[15px]" 
+                    className={inputClasses('ebitda')}
                     value={formData.ebitda || ''}
-                    onChange={e => setFormData({...formData, ebitda: Number(e.target.value)})}
-                    required 
+                    onChange={e => {
+                      setFormData({...formData, ebitda: Number(e.target.value)});
+                      if (errors.ebitda) setErrors(prev => ({ ...prev, ebitda: '' }));
+                    }}
                   />
+                  {errors.ebitda && <motion.p initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} className="text-[10px] text-rose-500 font-bold uppercase tracking-widest ml-2">{errors.ebitda}</motion.p>}
                 </div>
               </div>
 
@@ -108,22 +150,24 @@ const Valuation: React.FC = () => {
                 <label className="text-[10px] sm:text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] sm:tracking-[0.5em] ml-2">Growth (%)</label>
                 <input 
                   type="number" 
-                  className="w-full bg-slate-50 border border-slate-100 rounded-xl sm:rounded-2xl px-6 sm:px-8 py-5 sm:py-6 text-[#0a0f1a] font-black focus:bg-white outline-none transition-all shadow-inner text-sm sm:text-[15px]" 
+                  className={inputClasses('growthRate')}
                   value={formData.growthRate || ''}
                   onChange={e => setFormData({...formData, growthRate: Number(e.target.value)})}
-                  required 
                 />
               </div>
 
               <div className="space-y-3">
                 <label className="text-[10px] sm:text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] sm:tracking-[0.5em] ml-2">Description</label>
                 <textarea 
-                  className="w-full bg-slate-50 border border-slate-100 rounded-xl sm:rounded-2xl px-6 sm:px-8 py-5 sm:py-6 text-[#0a0f1a] font-black focus:bg-white outline-none transition-all shadow-inner text-sm sm:text-[15px] h-32 resize-none leading-relaxed" 
-                  placeholder="Revenue mechanics..."
+                  className={inputClasses('description') + " h-32 resize-none leading-relaxed font-medium"} 
+                  placeholder="Strategic revenue mechanics..."
                   value={formData.description}
-                  onChange={e => setFormData({...formData, description: e.target.value})}
-                  required
+                  onChange={e => {
+                    setFormData({...formData, description: e.target.value});
+                    if (errors.description) setErrors(prev => ({ ...prev, description: '' }));
+                  }}
                 />
+                {errors.description && <motion.p initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} className="text-[10px] text-rose-500 font-bold uppercase tracking-widest ml-2">{errors.description}</motion.p>}
               </div>
 
               <button 
@@ -210,7 +254,7 @@ const Valuation: React.FC = () => {
                      </div>
                   </div>
                   
-                  <div className="mt-16 sm:mt-24 pt-8 sm:pt-12 border-t border-white/5 text-[9px] sm:text-[11px] font-black text-white/20 uppercase tracking-[0.3em] sm:tracking-[0.6em] flex justify-between">
+                  <div className="mt-16 sm:mt-24 pt-8 sm:pt-12 border-t border-white/10 text-[9px] sm:text-[11px] font-black text-white/20 uppercase tracking-[0.3em] sm:tracking-[0.6em] flex justify-between">
                     <span>AUTHENTICATED ARTIFACT</span>
                     <span className="hidden sm:block">SEC-955 | VERIFIED</span>
                   </div>

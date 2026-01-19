@@ -1,189 +1,176 @@
 
-import React, { useState } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { 
-  Building2, 
-  Cpu, 
-  Stethoscope, 
-  Medal, 
-  Wind, 
-  Leaf, 
-  Utensils, 
-  Gem, 
-  Rocket, 
-  Clapperboard, 
-  Pickaxe, 
-  Factory,
-  MapPin,
-  ExternalLink,
-  Loader2
+  Building2, Cpu, Stethoscope, Medal, Wind, Leaf, Utensils, 
+  Gem, Rocket, Clapperboard, Pickaxe, Factory, ChevronRight 
 } from 'lucide-react';
-import { findNearbyHubs } from '../services/geminiService';
-import { motion, AnimatePresence } from 'framer-motion';
-
-const LogoMark: React.FC<{ className?: string, color?: string }> = ({ className = "w-5 h-5", color = "#111e35" }) => (
-  <svg viewBox="0 0 100 100" fill="none" className={className}>
-    <rect width="100" height="100" rx="24" fill={color} />
-    <path d="M30 30H70V38H40V48H65V56H40V72H30V30Z" fill="white" />
-  </svg>
-);
 
 const Areas: React.FC = () => {
-  const [loading, setLoading] = useState(false);
-  const [hubs, setHubs] = useState<{analysis: string, hubs: any[]} | null>(null);
-
   const sectors = [
-    { id: 'real-estate', label: 'Real Estate', icon: Building2 },
-    { id: 'technology', label: 'Technology', icon: Cpu },
-    { id: 'health', label: 'Health', icon: Stethoscope },
-    { id: 'sports', label: 'Sports', icon: Medal },
-    { id: 'renewable-energy', label: 'Renewable Energy', icon: Wind },
-    { id: 'sustainability', label: 'Sustainability', icon: Leaf },
-    { id: 'food-beverage', label: 'Food & Beverage', icon: Utensils },
-    { id: 'fashion-beauty', label: 'Fashion & Beauty', icon: Gem },
-    { id: 'aerospace', label: 'Aerospace', icon: Rocket },
-    { id: 'film-entertainment', label: 'Film & Entertainment', icon: Clapperboard },
-    { id: 'mining', label: 'Mining', icon: Pickaxe },
-    { id: 'manufacturing', label: 'Manufacturing/Distribution', icon: Factory },
+    { 
+      id: 'real-estate', 
+      label: 'Real Estate', 
+      icon: Building2, 
+      path: '/area-real-estate',
+      detail: 'Architecting mezzanine debt tranches for Class-A commercial developments and institutional-grade multi-family underwriting.'
+    },
+    { 
+      id: 'technology', 
+      label: 'Technology', 
+      icon: Cpu, 
+      path: '/area-technology',
+      detail: 'Cap table optimization for Series B+ entities and visionary mapping for AI-driven operational nodes and fintech liquidity tranches.'
+    },
+    { 
+      id: 'health', 
+      label: 'Health', 
+      icon: Stethoscope, 
+      path: '/area-health',
+      detail: 'Biotech R&D funding and specialized medical facility underwriting. Navigating complex regulatory tranches for longevity capital.'
+    },
+    { 
+      id: 'sports', 
+      label: 'Sports', 
+      icon: Medal, 
+      path: '/area-sports',
+      detail: 'Stadium infrastructure bonds and team asset valuation. Architecting the capital environment for global performance and media rights.'
+    },
+    { 
+      id: 'renewable-energy', 
+      label: 'Renewable Energy', 
+      icon: Wind, 
+      path: '/area-renewable-energy',
+      detail: 'Green bond issuance and project yield modeling for wind/solar tranches. Strategic alignment with sovereign ESG-aligned capital sources.'
+    },
+    { 
+      id: 'sustainability', 
+      label: 'Sustainability', 
+      icon: Leaf, 
+      path: '/area-sustainability',
+      detail: 'Corporate ESG pivot advisory and impact reporting nodes. Unlocking green debt tranches for legacy manufacturing sectors.'
+    },
+    { 
+      id: 'food-beverage', 
+      label: 'Food & Beverage', 
+      icon: Utensils, 
+      path: '/area-food-beverage',
+      detail: 'Ag-tech scaling rounds and global export distribution architecture. Brand valuation for legacy estates and flavor profile nodes.'
+    },
+    { 
+      id: 'fashion-beauty', 
+      label: 'Fashion & Beauty', 
+      icon: Gem, 
+      path: '/area-fashion-beauty',
+      detail: 'Luxury brand exit advisory and institutional e-commerce scaling. Monetization of aesthetic brand equity in global lifestyle markets.'
+    },
+    { 
+      id: 'aerospace', 
+      label: 'Aerospace', 
+      icon: Rocket, 
+      path: '/area-aerospace',
+      detail: 'Orbital logistics funding and defense contractor debt tranches. Navigating ITAR/EAR compliant financial environments with absolute integrity.'
+    },
+    { 
+      id: 'film-entertainment', 
+      label: 'Film & Entertainment', 
+      icon: Clapperboard, 
+      path: '/area-film-entertainment',
+      detail: 'Multi-film slate funding and IP monetization strategy. Architecting studio-level infrastructure and narrative economy tranches.'
+    },
+    { 
+      id: 'mining', 
+      label: 'Mining', 
+      icon: Pickaxe, 
+      path: '/area-mining',
+      detail: 'Critical mineral trade programs and heavy machinery debt tranches. Exploration node viability audits for high-yield commodity corridors.'
+    },
+    { 
+      id: 'manufacturing', 
+      label: 'Manufacturing/Distribution', 
+      icon: Factory, 
+      path: '/area-manufacturing',
+      detail: 'Automated facility scaling and global supply chain node mapping. Industrial-grade operational yield optimization for mature enterprises.'
+    },
   ];
-
-  const handleHubSearch = (sector: string) => {
-    setLoading(true);
-    navigator.geolocation.getCurrentPosition(async (pos) => {
-      try {
-        const res = await findNearbyHubs({ lat: pos.coords.latitude, lng: pos.coords.longitude }, sector);
-        setHubs(res);
-      } catch (e) {
-        console.error("Maps Grounding Error", e);
-      } finally {
-        setLoading(false);
-      }
-    }, (err) => {
-      setLoading(false);
-      alert("Please allow geolocation to map nearby institutional hubs.");
-    });
-  };
 
   return (
     <div className="bg-white min-h-screen">
-      {/* Header */}
-      <section className="pt-32 pb-16 px-8 lg:px-24 bg-slate-50 border-b border-slate-100">
-        <div className="max-w-4xl">
-          <h1 className="serif text-7xl text-slate-900 font-bold mb-8">Areas We Cover</h1>
-          <p className="text-slate-600 text-xl leading-relaxed">
-            Specialized advisory across the global node-map. Grounded in geographic institutional data.
-          </p>
+      <section className="pt-32 sm:pt-48 pb-20 sm:pb-32 px-6 sm:px-10 lg:px-32 bg-[#fdfdfc] border-b border-slate-50 relative overflow-hidden">
+        <div className="absolute top-0 right-0 p-40 opacity-[0.015] pointer-events-none transform scale-150 rotate-45">
+          <Building2 size={600} />
+        </div>
+        <div className="max-w-5xl relative z-10">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}>
+            <span className="text-indigo-600 text-[12px] font-black uppercase tracking-[0.6em] block mb-10 flex items-center">
+              <div className="w-16 h-[2px] bg-indigo-600 mr-5" /> Geographic Coverage
+            </span>
+            <h1 className="serif text-5xl sm:text-7xl md:text-9xl text-[#0a0f1a] font-black mb-12 italic tracking-tighter leading-[0.9]">Market <br/> Verticals.</h1>
+            <p className="text-slate-500 text-xl sm:text-2xl leading-relaxed max-w-3xl font-medium italic opacity-80">
+              Federgreen Coverage spans 12 core institutional nodes. We provide the structural logic and sector-specific artifacts required for high-velocity capital deployment.
+            </p>
+          </motion.div>
         </div>
       </section>
 
-      {/* Hub Mapper Tool */}
-      <section className="py-24 px-8 lg:px-24 bg-white border-b border-slate-100">
-        <div className="max-w-7xl mx-auto">
-          <div className="bg-[#111e35] text-white p-12 rounded-[3.5rem] shadow-2xl relative overflow-hidden group">
-            <div className="absolute -top-12 -right-12 opacity-5">
-              <LogoMark className="w-80 h-80" color="white" />
-            </div>
-            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-              <div>
-                <div className="flex items-center space-x-3 mb-6">
-                  <MapPin className="text-emerald-400" size={24} />
-                  <span className="text-[10px] font-black uppercase tracking-[0.4em]">Google Maps Grounding</span>
-                </div>
-                <h2 className="serif text-5xl font-black mb-6 italic tracking-tight text-white">Institutional Hub Mapper.</h2>
-                <p className="text-indigo-100/60 text-lg leading-relaxed mb-10 max-w-md">
-                  Execute a localized node audit to identify tier-1 financial infrastructure and sectoral headquarters near your current residency.
-                </p>
-                <div className="flex flex-wrap gap-3">
-                  {sectors.slice(0, 5).map(s => (
-                    <button 
-                      key={s.id} 
-                      onClick={() => handleHubSearch(s.label)}
-                      className="px-5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-600 hover:border-emerald-600 transition-all"
-                    >
-                      {s.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="min-h-[400px] bg-white/5 rounded-[2.5rem] border border-white/10 p-10 flex flex-col justify-center">
-                <AnimatePresence mode="wait">
-                  {loading ? (
-                    <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex flex-col items-center space-y-6">
-                      <Loader2 size={48} className="animate-spin text-emerald-400" />
-                      <p className="text-[10px] font-black uppercase tracking-[0.4em] text-indigo-300">Synchronizing Maps Grounding...</p>
-                    </motion.div>
-                  ) : hubs ? (
-                    <motion.div key="results" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-8">
-                      <div className="space-y-4">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-emerald-400">Node Analysis</p>
-                        <p className="text-indigo-50 font-medium italic leading-relaxed text-sm">
-                          {hubs.analysis}
-                        </p>
-                      </div>
-                      <div className="space-y-4">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-indigo-300">Identified Hubs</p>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                          {hubs.hubs.slice(0, 4).map((h, i) => (
-                            <a key={i} href={h.uri} target="_blank" rel="noreferrer" className="flex items-center justify-between p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all group">
-                              <span className="text-[10px] font-black uppercase tracking-tight text-indigo-50 group-hover:text-white truncate pr-2">{h.title}</span>
-                              <ExternalLink size={12} className="text-indigo-400 flex-shrink-0" />
-                            </a>
-                          ))}
-                        </div>
-                      </div>
-                    </motion.div>
-                  ) : (
-                    <div className="text-center space-y-4">
-                      <MapPin size={48} className="mx-auto text-white/10" />
-                      <p className="text-indigo-100/30 text-xs font-black uppercase tracking-widest italic">Select a sector to map hubs</p>
-                    </div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Sector Grid */}
-      <section className="py-24 px-8 lg:px-24 border-t border-slate-100">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {sectors.map(sector => (
-            <div 
+      <section className="py-24 sm:py-48 px-6 sm:px-10 lg:px-32 bg-white">
+        <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 sm:gap-12">
+          {sectors.map((sector, i) => (
+            <motion.div 
               key={sector.id} 
-              id={sector.id} 
-              className="group bg-slate-50 border border-slate-100 p-10 rounded-[32px] hover:border-indigo-300 transition-all hover:bg-white hover:shadow-xl scroll-mt-28 flex flex-col items-center text-center"
+              initial={{ opacity: 0, y: 32 }} 
+              whileInView={{ opacity: 1, y: 0 }} 
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ delay: i * 0.05, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              className="group p-10 sm:p-14 bg-[#fcfcfb] rounded-[3rem] sm:rounded-[4rem] border border-slate-100 hover:bg-white hover:shadow-[0_96px_192px_-48px_rgba(10,15,26,0.12)] transition-all duration-1000 relative overflow-hidden flex flex-col h-full"
             >
-              <div className="w-16 h-16 bg-white border border-slate-100 rounded-2xl flex items-center justify-center text-slate-400 group-hover:text-indigo-600 group-hover:scale-110 transition-all mb-6 shadow-sm">
-                <sector.icon size={24} />
+              <div className="absolute top-0 right-0 p-12 opacity-0 group-hover:opacity-[0.03] transition-all duration-[2s] -translate-y-8 group-hover:translate-y-0 group-hover:rotate-12 transform scale-150">
+                <sector.icon size={120} />
               </div>
-              <h3 className="text-slate-900 font-bold mb-4">{sector.label}</h3>
-              <p className="text-slate-500 text-[10px] uppercase tracking-widest leading-relaxed">
-                Institutional advisory & capital matching for the {sector.label.toLowerCase()} sector.
-              </p>
-              <div className="mt-8 pt-6 border-t border-slate-200 w-full">
-                <button 
-                  onClick={() => handleHubSearch(sector.label)}
-                  className="text-[9px] font-black text-indigo-600 uppercase tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-all"
-                >
-                  Request Sector Node
-                </button>
-              </div>
-            </div>
+              
+              <Link to={sector.path} className="flex-1 flex flex-col space-y-10 relative z-10">
+                <div className="w-20 h-20 bg-white border border-slate-50 rounded-[1.8rem] flex items-center justify-center text-slate-300 group-hover:text-indigo-600 shadow-sm transition-all duration-[1s] group-hover:scale-110 group-hover:rotate-6 group-hover:shadow-2xl active:scale-95">
+                  <sector.icon size={36} strokeWidth={1.5} />
+                </div>
+                
+                <div className="space-y-6">
+                  <h3 className="text-3xl sm:text-4xl text-[#0a0f1a] font-black italic tracking-tight leading-none group-hover:text-indigo-600 transition-colors">
+                    {sector.label}.
+                  </h3>
+                  <p className="text-slate-500 text-lg leading-relaxed font-medium italic opacity-80 group-hover:opacity-100 transition-opacity">
+                    {sector.detail}
+                  </p>
+                </div>
+
+                <div className="mt-auto pt-10 border-t border-slate-50 flex items-center justify-between">
+                  <div className="flex items-center text-indigo-600 font-black text-[11px] uppercase tracking-[0.4em] opacity-0 group-hover:opacity-100 transition-all transform translate-x-[-10px] group-hover:translate-x-0 duration-700">
+                    Access Node <ChevronRight className="ml-2" size={14} />
+                  </div>
+                  <span className="text-[10px] font-black text-slate-200 uppercase tracking-widest group-hover:text-slate-300 transition-colors">Sector Ref: FC-{sector.id.toUpperCase().slice(0, 3)}</span>
+                </div>
+              </Link>
+            </motion.div>
           ))}
         </div>
       </section>
 
-      {/* Global Reach Callout */}
-      <section className="py-24 px-8 lg:px-24 bg-slate-50">
-        <div className="max-w-5xl mx-auto bg-white border border-slate-200 p-16 rounded-[48px] text-center space-y-8 shadow-sm">
-           <h2 className="serif text-4xl text-slate-900 font-bold">Unmapped Opportunities</h2>
-           <p className="text-slate-600 text-lg max-w-2xl mx-auto leading-relaxed">
-             Our coverage is fluid. If your enterprise operates at the intersection of these nodes, we provide the capital bridge to mature.
-           </p>
-           <button className="px-8 py-4 bg-indigo-600 text-white rounded-xl font-bold uppercase text-[10px] tracking-widest hover:bg-indigo-700 transition-all shadow-md">
-             Global Node Request
-           </button>
+      {/* Institutional Note Tranche */}
+      <section className="py-32 sm:py-48 px-6 sm:px-10 lg:px-32 bg-[#0a0f1a] relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '64px 64px' }} />
+        <div className="max-w-5xl mx-auto text-center relative z-10">
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}>
+            <h2 className="serif text-5xl sm:text-6xl text-white font-black italic tracking-tighter mb-10 leading-tight">
+              Cross-Sector <br/> Fluidity.
+            </h2>
+            <p className="text-indigo-100/40 text-2xl font-light italic leading-relaxed mb-16 mx-auto max-w-2xl">
+              We specialize in the convergence of sectors—where technology meets aerospace, or renewable energy tranches intersect with large-scale real estate.
+            </p>
+            <Link to="/contact" className="inline-flex items-center px-16 py-8 bg-white text-[#0a0f1a] rounded-full font-black text-[12px] uppercase tracking-[0.5em] hover:bg-emerald-400 hover:text-white transition-all duration-[0.8s] shadow-2xl active:scale-95 group">
+              Consult Advisory Node 
+              <ChevronRight className="ml-4 group-hover:translate-x-2 transition-transform" size={18} />
+            </Link>
+          </motion.div>
         </div>
       </section>
     </div>

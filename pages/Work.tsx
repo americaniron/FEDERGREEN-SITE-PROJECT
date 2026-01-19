@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { FileText, Presentation, BarChart3, ArrowRight, Zap, Calculator } from 'lucide-react';
+import { FileText, Presentation, BarChart3, ArrowRight, Zap, Calculator, Target, MessageSquare } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { checkApiStatus } from '../services/geminiService';
@@ -64,7 +64,7 @@ const Work: React.FC = () => {
 
       {/* FEDERGREEN Financial Tools Section */}
       <section className="py-24 sm:py-48 px-6 sm:px-10 lg:px-32 bg-white relative">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-[1600px] mx-auto">
             <div className="text-center max-w-3xl mx-auto mb-20 sm:mb-32">
                 <div className="flex justify-center mb-8 sm:mb-10">
                     <ApiStatusIndicator status={apiStatus} />
@@ -75,28 +75,39 @@ const Work: React.FC = () => {
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
                 {[
                     { 
-                        title: "Strategic Narratives", 
+                        title: "Business Plans", 
                         desc: "Generate board-ready business plans grounded in real-time institutional data tranches.",
                         icon: FileText,
                         path: "/business-plans",
-                        accent: "text-emerald-600"
+                        accent: "text-emerald-600",
+                        cta: "Strategic Narrative"
                     },
                     { 
-                        title: "Investor Q&A", 
-                        desc: "Simulate critical questions from Tier-1 VCs and sovereign credit committees.",
+                        title: "Investor Decks", 
+                        desc: "High-fidelity visual narratives featuring the proprietary Investor Q&A Simulator.",
                         icon: Presentation,
                         path: "/investor-decks",
-                        accent: "text-indigo-600"
+                        accent: "text-indigo-600",
+                        cta: "Initiate Q&A Simulation"
                     },
                     { 
-                        title: "Capital Stack", 
-                        desc: "Model and optimize your capital stack with FEDERGREEN yield recommendations.",
+                        title: "Financials", 
+                        desc: "Audit-ready projections and sensitivity tranches for rigorous third-party assessment.",
                         icon: BarChart3,
                         path: "/financials",
-                        accent: "text-emerald-600"
+                        accent: "text-emerald-600",
+                        cta: "Model Capital Stack"
+                    },
+                    { 
+                        title: "Market Pulse", 
+                        desc: "Real-time institutional sentiment reports grounded in global news tranches.",
+                        icon: Target,
+                        path: "/",
+                        accent: "text-indigo-600",
+                        cta: "Analyze Sentiment"
                     }
                 ].map((tool, i) => (
                     <motion.div 
@@ -104,19 +115,19 @@ const Work: React.FC = () => {
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 1, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
+                        transition={{ duration: 1, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
                     >
-                        <Link to={tool.path} className="block bg-[#fdfdfc] p-10 sm:p-16 rounded-[2.5rem] sm:rounded-[4rem] border border-slate-100 h-full group hover:shadow-2xl transition-all duration-700 relative overflow-hidden">
-                            <div className="absolute top-0 right-0 p-8 sm:p-10 opacity-[0.03] transform scale-125 sm:scale-150">
-                                <tool.icon size={80} sm:size={120} />
+                        <Link to={tool.path} className="block bg-[#fdfdfc] p-10 rounded-[3rem] border border-slate-100 h-full group hover:shadow-2xl transition-all duration-700 relative overflow-hidden group active:scale-95">
+                            <div className="absolute top-0 right-0 p-8 sm:p-10 opacity-[0.03] transform scale-125 sm:scale-150 transition-transform duration-[2s] group-hover:rotate-12">
+                                <tool.icon size={80} sm:size={100} />
                             </div>
                             <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white border border-slate-100 rounded-2xl sm:rounded-[1.8rem] flex items-center justify-center mb-8 sm:mb-12 shadow-sm group-hover:bg-[#0a0f1a] transition-all duration-700">
                                 <tool.icon size={24} sm:size={32} className={`text-slate-400 group-hover:text-white transition-all ${tool.accent}`} />
                             </div>
                             <h3 className="text-2xl sm:text-3xl text-[#0a0f1a] font-black mb-4 sm:mb-6 italic tracking-tight leading-tight group-hover:text-indigo-600 transition-colors">{tool.title}</h3>
-                            <p className="text-slate-500 text-base sm:text-lg leading-relaxed mb-10 sm:mb-16 font-medium italic opacity-80 group-hover:opacity-100 transition-opacity">{tool.desc}</p>
-                            <div className="flex items-center text-indigo-600 font-black text-[10px] sm:text-[12px] uppercase tracking-[0.3em] sm:tracking-[0.4em] group-hover:translate-x-4 transition-transform">
-                                Access Node <ArrowRight className="ml-2 sm:ml-3" size={14} sm:size={16} />
+                            <p className="text-slate-500 text-base leading-relaxed mb-10 sm:mb-16 font-medium italic opacity-80 group-hover:opacity-100 transition-opacity">{tool.desc}</p>
+                            <div className="flex items-center text-indigo-600 font-black text-[10px] uppercase tracking-[0.4em] group-hover:translate-x-4 transition-transform mt-auto">
+                                {tool.cta} <ArrowRight className="ml-2 sm:ml-3" size={14} />
                             </div>
                         </Link>
                     </motion.div>
@@ -142,7 +153,7 @@ const Work: React.FC = () => {
                 <p className="text-slate-500 text-lg sm:text-xl leading-[1.6] sm:leading-[1.8] font-medium italic opacity-80 mb-10 sm:mb-12">
                   {section.desc}
                 </p>
-                <Link to={section.path} className="inline-flex items-center space-x-3 sm:space-x-4 text-indigo-600 font-black text-[10px] sm:text-[12px] uppercase tracking-[0.4em] sm:tracking-[0.5em] group hover:translate-x-4 transition-all duration-700">
+                <Link to={section.path} className="inline-flex items-center space-x-3 sm:space-x-4 text-indigo-600 font-black text-[10px] sm:text-[12px] uppercase tracking-[0.4em] sm:tracking-[0.5em] group hover:translate-x-4 transition-all duration-700 text-left">
                   <span>Access Node</span>
                   <div className="w-8 sm:w-12 h-px bg-indigo-600 group-hover:w-16 sm:group-hover:w-20 transition-all duration-700" />
                   <ArrowRight size={16} sm:size={18} />

@@ -20,12 +20,13 @@ If a user asks about a service NOT listed, politely explain that Federgreen spec
 Be professional, concise, and elite.`;
 
 /**
- * API STATUS NODE: Gemini 2.5 Flash Lite
+ * API STATUS NODE: Gemini Flash Lite
  */
 export const checkApiStatus = async (): Promise<boolean> => {
   try {
+    // Corrected model name from gemini-2.5-flash-lite-latest to gemini-flash-lite-latest per guidelines
     await ai.models.generateContent({
-      model: 'gemini-2.5-flash-lite-latest',
+      model: 'gemini-flash-lite-latest',
       contents: 'ping'
     });
     return true;
@@ -316,11 +317,12 @@ export const getBusinessValuation = async (data: ValuationData) => {
 };
 
 /**
- * FLASH NODE: Gemini 2.5 Flash Lite
+ * FLASH NODE: Gemini Flash Lite
  */
 export const underwriteRealEstate = async (deal: RealEstateDeal) => {
+  // Corrected model name from gemini-2.5-flash-lite-latest to gemini-flash-lite-latest per guidelines
   const response = await ai.models.generateContent({
-    model: 'gemini-2.5-flash-lite-latest',
+    model: 'gemini-flash-lite-latest',
     contents: `Underwrite this real estate deal: ${JSON.stringify(deal)}.`,
     config: {
       responseMimeType: "application/json",

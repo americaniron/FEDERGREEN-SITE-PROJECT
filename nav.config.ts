@@ -45,12 +45,6 @@ export const navConfig: NavItem[] = [
     ]
   },
   {
-    id: 'workshop',
-    label: 'Workshop',
-    path: '/workshop',
-    icon: Cpu,
-  },
-  {
     id: 'services',
     label: 'Services',
     path: '/services',
@@ -75,7 +69,6 @@ export const navConfig: NavItem[] = [
             path: '/due-diligence',
             children: [
               { id: 'security-checks', label: 'Security Checks/KYC/AML/Due Diligence', path: '/kyc-node' },
-              { id: 'real-estate-underwriting', label: 'Real Estate Underwriting', path: '/underwriting' },
               { id: 'third-party-valuations', label: 'Third-Party Valuations', path: '/valuation' },
               { id: 'feasibility-studies', label: 'Feasibility Studies', path: '/feasibility-studies' },
             ]
@@ -116,7 +109,7 @@ export const navConfig: NavItem[] = [
       { id: 'private-funds', label: 'Private Funds', path: '/funding-private-funds' },
       { 
         id: 'new-world-finance', 
-        label: 'New World of Finance', 
+        label: 'New World of Finance', // Placeholder name as requested
         path: '/new-world-finance',
         children: [
           { id: 'hybrid', label: 'Hybrid', path: '/funding-hybrid' },
@@ -148,12 +141,6 @@ export const navConfig: NavItem[] = [
       { id: 'newsletters', label: 'Newsletters', path: '/newsletters' },
       { id: 'blogs', label: 'Blogs', path: '/blogs' },
     ]
-  },
-  {
-    id: 'portal',
-    label: 'Portal Access',
-    path: '/login',
-    icon: Lock,
   },
   {
     id: 'contact',
