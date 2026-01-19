@@ -295,8 +295,9 @@ export const findNearbyHubs = async (coords: { lat: number, lng: number }, secto
 export const getBusinessValuation = async (data: ValuationData) => {
   const response = await ai.models.generateContent({
     model: 'gemini-3-pro-preview',
-    contents: `Perform a deep-dive enterprise valuation on the following business data: ${JSON.stringify(data)}. Use Search grounding to verify industry multiples.`,
+    contents: `Perform a deep-dive enterprise valuation and comprehensive risk assessment on the following business data: ${JSON.stringify(data)}. Use Search grounding to verify industry multiples and identify current sector-specific threats.`,
     config: {
+      systemInstruction: "You are an Institutional Strategy Architect. In the 'detailedAnalysis' field, you MUST provide a multi-paragraph, high-fidelity 'Institutional Risk Report' detailing operational, market, and structural risks. Be rigorous.",
       thinkingConfig: { thinkingBudget: 32768 },
       tools: [{ googleSearch: {} }],
       responseMimeType: "application/json",

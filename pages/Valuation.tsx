@@ -2,13 +2,14 @@
 import React, { useState } from 'react';
 import { getBusinessValuation } from '../services/geminiService';
 import { ValuationData } from '../types';
-import { Calculator, ArrowRight, TrendingUp, Info, BarChart3, ShieldCheck, Landmark, Target, AlertCircle } from 'lucide-react';
+import { Calculator, ArrowRight, TrendingUp, Info, BarChart3, ShieldCheck, Landmark, Target, AlertCircle, FileText, ClipboardCheck } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Valuation: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [showFullReport, setShowFullReport] = useState(false);
   const [formData, setFormData] = useState<ValuationData>({
     businessName: '',
     industry: '',
@@ -35,6 +36,7 @@ const Valuation: React.FC = () => {
     
     setLoading(true);
     setResult(null);
+    setShowFullReport(false);
     try {
       const evaluation = await getBusinessValuation(formData);
       setResult(evaluation);
@@ -62,7 +64,7 @@ const Valuation: React.FC = () => {
             </div>
             <h1 className="serif text-5xl sm:text-7xl md:text-8xl text-[#0a0f1a] font-black mb-8 sm:mb-10 italic tracking-tighter leading-[1.1] sm:leading-[0.9]">Enterprise <br className="hidden sm:block"/> Valuation.</h1>
             <p className="text-slate-500 text-xl sm:text-2xl max-w-2xl leading-relaxed font-medium italic opacity-90">
-                Algorithmic business assessment via sovereign FEDERGREEN nodes.
+                Algorithmic business assessment and deep-node risk report via sovereign FEDERGREEN nodes.
             </p>
           </motion.div>
         </div>
@@ -184,7 +186,7 @@ const Valuation: React.FC = () => {
                     </>
                   ) : (
                     <>
-                        Valuate Node
+                        Generate Risk Report
                         <ArrowRight className="ml-4 sm:ml-5 group-hover:translate-x-3 transition-transform" size={18} sm:size={20} />
                     </>
                   )}
@@ -208,55 +210,77 @@ const Valuation: React.FC = () => {
                      <TrendingUp size={200} sm:size={300} />
                   </div>
 
-                  <div className="mb-12 sm:mb-20 border-b border-white/10 pb-10 sm:pb-12 relative z-10">
-                    <h2 className="serif text-4xl sm:text-6xl font-black mb-4 italic tracking-tighter leading-tight">Valuation <br className="hidden sm:block"/> Artifact.</h2>
-                    <p className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.4em] sm:tracking-[0.6em] text-indigo-300">Analytical Node: FG-3-PRO</p>
+                  <div className="mb-12 sm:mb-20 border-b border-white/10 pb-10 sm:pb-12 relative z-10 flex justify-between items-end">
+                    <div>
+                        <h2 className="serif text-4xl sm:text-6xl font-black mb-4 italic tracking-tighter leading-tight">Institutional <br className="hidden sm:block"/> Report.</h2>
+                        <p className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.4em] sm:tracking-[0.6em] text-indigo-300">Analytical Node: FG-3-PRO</p>
+                    </div>
+                    <button 
+                        onClick={() => setShowFullReport(!showFullReport)}
+                        className="px-6 py-3 bg-white/10 border border-white/10 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-white/20 transition-all flex items-center"
+                    >
+                        {showFullReport ? 'Summary View' : 'Full Risk Analysis'}
+                        <FileText size={14} className="ml-3" />
+                    </button>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 mb-12 sm:mb-20 relative z-10">
-                     <div className="bg-white/5 p-8 sm:p-12 rounded-[2rem] sm:rounded-[3.5rem] border border-white/10 shadow-2xl backdrop-blur-3xl group hover:border-indigo-400/30 transition-all duration-700">
-                        <p className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.4em] sm:tracking-[0.6em] text-indigo-300 mb-4 sm:mb-6 flex items-center">
-                            <Landmark size={14} className="mr-2 sm:mr-3" /> Est. Enterprise Value
-                        </p>
-                        <p className="text-4xl sm:text-6xl font-black text-white italic tracking-tighter leading-none">{result.estimatedValue}</p>
-                     </div>
-                     <div className="bg-white/5 p-8 sm:p-12 rounded-[2rem] sm:rounded-[3.5rem] border border-white/10 shadow-2xl backdrop-blur-3xl group hover:border-emerald-400/30 transition-all duration-700">
-                        <p className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.4em] sm:tracking-[0.6em] text-indigo-300 mb-4 sm:mb-6 flex items-center">
-                            <Target size={14} className="mr-2 sm:mr-3" /> Viability Index
-                        </p>
-                        <p className="text-4xl sm:text-6xl font-black text-emerald-400 italic tracking-tighter leading-none">{result.viabilityScore}<span className="text-2xl sm:text-3xl text-white/30 ml-2 font-light">/100</span></p>
-                     </div>
-                  </div>
-
-                  <div className="space-y-12 sm:space-y-16 flex-grow relative z-10">
-                     <div>
-                        <h4 className="text-[12px] sm:text-[14px] font-black uppercase tracking-[0.4em] sm:tracking-[0.6em] text-indigo-300 mb-6 sm:mb-8 flex items-center">
-                          <Info size={16} className="mr-3 sm:mr-4" /> Risk Profile
-                        </h4>
-                        <p className="text-xl sm:text-2xl leading-[1.6] sm:leading-[1.7] text-indigo-50/80 italic font-light tracking-tight">
-                          {result.riskAssessment}
-                        </p>
-                     </div>
-
-                     <div>
-                        <h4 className="text-[12px] sm:text-[14px] font-black uppercase tracking-[0.4em] sm:tracking-[0.6em] text-indigo-300 mb-6 sm:mb-8">Recommendations</h4>
-                        <div className="grid grid-cols-1 gap-4 sm:gap-5">
-                           {result.fundingRecommendations.map((rec: string, i: number) => (
-                             <motion.div 
-                                key={i} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 * i + 0.6 }}
-                                className="bg-white/5 p-6 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] text-sm sm:text-[15px] border border-white/5 flex items-center italic font-medium"
-                             >
-                                <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-emerald-500 rounded-full mr-4 sm:mr-6 shadow-[0_0_15px_rgba(16,185,129,0.5)]" />
-                                {rec}
-                             </motion.div>
-                           ))}
+                  {!showFullReport ? (
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-12 sm:space-y-16 flex-grow relative z-10">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10">
+                            <div className="bg-white/5 p-8 sm:p-12 rounded-[2rem] sm:rounded-[3.5rem] border border-white/10 shadow-2xl backdrop-blur-3xl group hover:border-indigo-400/30 transition-all duration-700">
+                                <p className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.4em] sm:tracking-[0.6em] text-indigo-300 mb-4 sm:mb-6 flex items-center">
+                                    <Landmark size={14} className="mr-2 sm:mr-3" /> Est. Enterprise Value
+                                </p>
+                                <p className="text-4xl sm:text-6xl font-black text-white italic tracking-tighter leading-none">{result.estimatedValue}</p>
+                            </div>
+                            <div className="bg-white/5 p-8 sm:p-12 rounded-[2rem] sm:rounded-[3.5rem] border border-white/10 shadow-2xl backdrop-blur-3xl group hover:border-emerald-400/30 transition-all duration-700">
+                                <p className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.4em] sm:tracking-[0.6em] text-indigo-300 mb-4 sm:mb-6 flex items-center">
+                                    <Target size={14} className="mr-2 sm:mr-3" /> Viability Index
+                                </p>
+                                <p className="text-4xl sm:text-6xl font-black text-emerald-400 italic tracking-tighter leading-none">{result.viabilityScore}<span className="text-2xl sm:text-3xl text-white/30 ml-2 font-light">/100</span></p>
+                            </div>
                         </div>
-                     </div>
-                  </div>
+
+                        <div>
+                            <h4 className="text-[12px] sm:text-[14px] font-black uppercase tracking-[0.4em] sm:tracking-[0.6em] text-indigo-300 mb-6 sm:mb-8 flex items-center">
+                            <Info size={16} className="mr-3 sm:mr-4" /> Risk Profile Executive Summary
+                            </h4>
+                            <p className="text-xl sm:text-2xl leading-[1.6] sm:leading-[1.7] text-indigo-50/80 italic font-light tracking-tight">
+                            {result.riskAssessment}
+                            </p>
+                        </div>
+
+                        <div>
+                            <h4 className="text-[12px] sm:text-[14px] font-black uppercase tracking-[0.4em] sm:tracking-[0.6em] text-indigo-300 mb-6 sm:mb-8">Advisory Recommendations</h4>
+                            <div className="grid grid-cols-1 gap-4 sm:gap-5">
+                            {result.fundingRecommendations.map((rec: string, i: number) => (
+                                <motion.div 
+                                    key={i} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 * i + 0.6 }}
+                                    className="bg-white/5 p-6 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] text-sm sm:text-[15px] border border-white/5 flex items-center italic font-medium"
+                                >
+                                    <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-emerald-500 rounded-full mr-4 sm:mr-6 shadow-[0_0_15px_rgba(16,185,129,0.5)]" />
+                                    {rec}
+                                </motion.div>
+                            ))}
+                            </div>
+                        </div>
+                    </motion.div>
+                  ) : (
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex-grow relative z-10">
+                        <div className="bg-white/5 p-8 sm:p-12 rounded-[2rem] sm:rounded-[3.5rem] border border-white/10 h-full overflow-y-auto hide-scrollbar max-h-[600px]">
+                            <h4 className="text-[12px] sm:text-[14px] font-black uppercase tracking-[0.4em] sm:tracking-[0.6em] text-emerald-400 mb-10 flex items-center sticky top-0 bg-[#0a0f1a]/80 backdrop-blur-md py-4 z-20">
+                                <ClipboardCheck size={18} className="mr-4" /> Comprehensive Risk Assessment Report
+                            </h4>
+                            <div className="text-xl sm:text-2xl leading-[1.8] text-indigo-50/90 italic font-light tracking-tight whitespace-pre-wrap">
+                                {result.detailedAnalysis}
+                            </div>
+                        </div>
+                    </motion.div>
+                  )}
                   
                   <div className="mt-16 sm:mt-24 pt-8 sm:pt-12 border-t border-white/10 text-[9px] sm:text-[11px] font-black text-white/20 uppercase tracking-[0.3em] sm:tracking-[0.6em] flex justify-between">
-                    <span>AUTHENTICATED ARTIFACT</span>
-                    <span className="hidden sm:block">SEC-955 | VERIFIED</span>
+                    <span>AUTHENTICATED AI ARTIFACT</span>
+                    <span className="hidden sm:block">RISK-NODE-955 | VERIFIED</span>
                   </div>
                 </motion.div>
               ) : (
@@ -271,7 +295,7 @@ const Valuation: React.FC = () => {
                             <div className="absolute inset-0 border-[6px] sm:border-[8px] border-slate-100 rounded-full" />
                             <div className="absolute inset-0 border-[6px] sm:border-[8px] border-[#0a0f1a] border-t-emerald-400 rounded-full animate-spin" />
                         </div>
-                        <p className="text-[#0a0f1a] font-black uppercase tracking-[0.4em] sm:tracking-[0.6em] text-[13px] sm:text-[15px] animate-pulse">Modeling Node...</p>
+                        <p className="text-[#0a0f1a] font-black uppercase tracking-[0.4em] sm:tracking-[0.6em] text-[13px] sm:text-[15px] animate-pulse">Modeling Risk Node...</p>
                      </div>
                   ) : (
                     <div className="space-y-10 sm:space-y-12">
@@ -279,9 +303,9 @@ const Valuation: React.FC = () => {
                         <BarChart3 size={40} sm:size={56} />
                       </div>
                       <div className="space-y-4">
-                        <h3 className="serif text-3xl sm:text-5xl text-[#0a0f1a] font-black tracking-tighter italic">Valuation Idle.</h3>
+                        <h3 className="serif text-3xl sm:text-5xl text-[#0a0f1a] font-black tracking-tighter italic">Risk Analysis Idle.</h3>
                         <p className="text-slate-500 text-lg sm:text-xl max-w-sm mx-auto leading-relaxed font-medium italic opacity-80">
-                          The analytical engine requires metadata to begin sequence.
+                          The heuristic engine requires enterprise metadata to generate a comprehensive risk report.
                         </p>
                       </div>
                     </div>
