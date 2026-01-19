@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   Building2, Cpu, Stethoscope, Medal, Wind, Leaf, Utensils, 
-  Gem, Rocket, Clapperboard, Pickaxe, Factory, ChevronRight 
+  Gem, Rocket, Clapperboard, Pickaxe, Factory, ChevronRight, 
+  ShieldCheck, TrendingUp, ArrowRight 
 } from 'lucide-react';
 import NodeDiscovery from '../components/NodeDiscovery';
 
@@ -162,6 +163,82 @@ const Areas: React.FC = () => {
               </Link>
             </motion.div>
           ))}
+        </div>
+      </section>
+
+      {/* ESG Advisory Section */}
+      <section className="py-32 sm:py-40 px-6 sm:px-10 lg:px-32 bg-[#fdfdfc] border-t border-slate-50">
+        <div className="section-container">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 lg:gap-32 items-center">
+            <motion.div 
+              initial={{ opacity: 0, x: -48 }} 
+              whileInView={{ opacity: 1, x: 0 }} 
+              viewport={{ once: true }}
+              className="space-y-12"
+            >
+              <div className="flex items-center space-x-6">
+                <div className="w-16 h-[2px] bg-emerald-700 shadow-sm" />
+                <span className="text-emerald-700 text-ui-caps">Sustainability Node</span>
+              </div>
+              <h2 className="serif italic text-5xl sm:text-6xl text-[#0a0f1a] font-black tracking-tighter leading-tight">
+                ESG & Green Capital Architecture.
+              </h2>
+              <p className="text-slate-500 text-2xl leading-relaxed font-medium italic opacity-80">
+                We guide enterprises through the complex transition to sustainable operational models, unlocking access to dedicated green capital tranches and hardening long-term institutional value.
+              </p>
+              <div className="space-y-8 pt-8">
+                {[
+                  { icon: Leaf, title: "Green Bond Issuance & Structuring", desc: "Architecting bankable green bonds that meet stringent institutional criteria." },
+                  { icon: ShieldCheck, title: "ESG Reporting & Compliance Node", desc: "Ensuring your sustainability metrics align with global standards like SASB and TCFD." },
+                  { icon: TrendingUp, title: "Impact Metric Optimization", desc: "Translating sustainable practices into quantifiable data that attracts premium capital." }
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start">
+                    <div className="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center mr-6 flex-shrink-0">
+                      <item.icon className="text-emerald-700" size={24} />
+                    </div>
+                    <div>
+                      <h4 className="font-black text-[#0a0f1a] tracking-tight">{item.title}</h4>
+                      <p className="text-slate-400 text-sm font-medium italic">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+               <div className="pt-12">
+                <Link to="/contact" className="inline-flex items-center space-x-6 text-emerald-700 text-ui-caps group hover:translate-x-4 transition-all duration-700">
+                    <span>Access Green Capital Node</span>
+                    <div className="w-12 h-px bg-emerald-700 group-hover:w-20 transition-all duration-700" />
+                    <ArrowRight size={20} />
+                </Link>
+              </div>
+            </motion.div>
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }} 
+              whileInView={{ opacity: 1, scale: 1 }} 
+              viewport={{ once: true }}
+              className="lg:w-full w-full"
+            >
+              <div className="aspect-square bg-[#0a0f1a] rounded-6xl p-16 flex flex-col justify-between relative overflow-hidden group shadow-2xl">
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-50" />
+                <div className="flex justify-between items-start z-10">
+                  <h3 className="text-ui-caps text-emerald-400 tracking-[0.6em]">Impact Yield</h3>
+                  <Leaf size={24} className="text-emerald-400/30" />
+                </div>
+                <div className="relative z-10 space-y-4">
+                  <div className="flex items-end gap-4 h-48">
+                    <motion.div initial={{ height: '10%' }} whileInView={{ height: '40%' }} transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1], delay: 0.2 }} className="w-full bg-emerald-400/20 rounded-t-2xl border-t-2 border-emerald-400" />
+                    <motion.div initial={{ height: '20%' }} whileInView={{ height: '60%' }} transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1], delay: 0.4 }} className="w-full bg-emerald-400/20 rounded-t-2xl border-t-2 border-emerald-400" />
+                    <motion.div initial={{ height: '15%' }} whileInView={{ height: '50%' }} transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1], delay: 0.6 }} className="w-full bg-emerald-400/20 rounded-t-2xl border-t-2 border-emerald-400" />
+                    <motion.div initial={{ height: '30%' }} whileInView={{ height: '80%' }} transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1], delay: 0.8 }} className="w-full bg-emerald-400 rounded-t-2xl border-t-2 border-emerald-400" />
+                  </div>
+                  <div className="h-px bg-white/10" />
+                  <div className="flex justify-between text-[10px] font-mono text-white/30">
+                    <span>Q1</span><span>Q2</span><span>Q3</span><span>Q4</span>
+                  </div>
+                </div>
+                <p className="text-ui-caps text-white/20 text-center z-10 tracking-[0.8em]">Metric Velocity</p>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 

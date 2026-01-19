@@ -1,78 +1,113 @@
 
 import React from 'react';
-import { Mail, Newspaper, ArrowRight, ExternalLink } from 'lucide-react';
+import { Mail, Newspaper, ArrowRight, ExternalLink, Globe, Zap, History, ChevronRight } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const Media: React.FC = () => {
   return (
     <div className="bg-white min-h-screen">
       {/* Header */}
-      <section className="pt-32 pb-16 px-8 lg:px-24 bg-slate-50 border-b border-slate-100">
-        <div className="max-w-4xl">
-          <h1 className="serif text-7xl text-slate-900 font-bold mb-8">Media</h1>
-          <p className="text-slate-600 text-xl leading-relaxed">
-            Market intelligence nodes from the Federgreen senior advisory desk.
-          </p>
-        </div>
-      </section>
-
-      {/* Newsletter */}
-      <section id="newsletters" className="py-24 px-8 lg:px-24 border-t border-slate-100 bg-white scroll-mt-24">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 items-center">
-          <div className="lg:w-1/2 space-y-8">
-            <div className="w-16 h-16 bg-slate-50 border border-slate-200 rounded-2xl flex items-center justify-center text-indigo-600">
-              <Mail size={32} />
-            </div>
-            <h2 className="serif text-5xl text-slate-900 font-bold">Newsletters</h2>
-            <p className="text-slate-600 text-lg leading-relaxed">
-              Proprietary weekly briefing on global liquidity shifts, private credit arbitrage, and institutional node mapping. 
+      <section className="pt-32 sm:pt-48 pb-20 sm:pb-30 px-6 sm:px-10 lg:px-22 bg-[#fdfdfc] border-b border-slate-50 relative overflow-hidden">
+        <div className="absolute top-0 right-0 p-32 opacity-[0.012] pointer-events-none transform rotate-12 scale-150"><Newspaper size={400} /></div>
+        <div className="section-container">
+          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <span className="text-ui-caps text-indigo-600 block mb-10 flex items-center">
+                <div className="w-14 h-[2px] bg-indigo-600 mr-5" /> Intelligence Network
+            </span>
+            <h1 className="serif italic text-[#0a0f1a] tracking-tighter mb-12">Institutional <br/> Knowledge.</h1>
+            <p className="text-slate-500 text-2xl leading-relaxed max-w-3xl font-medium italic opacity-80">
+              Market intelligence nodes from the Federgreen senior advisory desk. Distilling global complexity into operational clarity.
             </p>
-            <div className="flex bg-white border border-slate-300 rounded-2xl overflow-hidden focus-within:border-indigo-500 shadow-sm transition-all">
-              <input type="email" placeholder="Institutional Email" className="flex-1 bg-transparent px-6 py-5 text-slate-900 outline-none" />
-              <button className="px-8 bg-indigo-600 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-indigo-700 transition-all">Subscribe</button>
-            </div>
-          </div>
-          <div className="lg:w-1/2 w-full grid grid-cols-2 gap-4">
-             {[1, 2, 3, 4].map(i => (
-               <div key={i} className="aspect-[3/4] bg-slate-50 border border-slate-200 rounded-3xl p-6 flex flex-col justify-end hover:bg-white hover:shadow-lg transition-all cursor-pointer">
-                  <div className="w-8 h-8 bg-white border border-slate-200 rounded-lg mb-4 shadow-sm" />
-                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Issue #04{i}</p>
-                  <h4 className="text-xs text-slate-900 font-bold uppercase tracking-tight">Q3 Liquidity Node Report</h4>
-               </div>
-             ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Gateway Grid */}
+      <section className="py-24 sm:py-32 px-6 sm:px-10 lg:px-22 bg-white relative">
+        <div className="section-container">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16">
+            
+            {/* Newsletter Gateway */}
+            <motion.div 
+              initial={{ opacity: 0, x: -32 }} 
+              whileInView={{ opacity: 1, x: 0 }} 
+              viewport={{ once: true }}
+              className="group p-12 sm:p-20 bg-[#fcfcfb] rounded-6xl border border-slate-100 hover:bg-white transition-all duration-[0.7s] hover:shadow-2xl relative overflow-hidden flex flex-col h-full"
+            >
+              <div className="absolute top-0 right-0 p-12 opacity-0 group-hover:opacity-[0.03] transition-all duration-[2s] group-hover:rotate-12 transform scale-150">
+                <Mail size={200} />
+              </div>
+              <div className="w-20 h-20 bg-indigo-50 text-indigo-600 rounded-4xl flex items-center justify-center mb-12 shadow-inner transition-transform duration-700 group-hover:scale-105">
+                <Mail size={32} />
+              </div>
+              <h2 className="serif italic text-4xl sm:text-6xl text-[#0a0f1a] font-black mb-10 tracking-tighter leading-tight">Weekly <br/> Alpha Brief.</h2>
+              <p className="text-slate-500 text-xl leading-relaxed font-medium italic opacity-80 mb-16 flex-1">
+                Strategic updates on global liquidity shifts, sovereign debt tranches, and private equity arbitrage nodes.
+              </p>
+              <Link to="/newsletters" className="inline-flex items-center space-x-6 text-indigo-600 text-ui-caps group-hover:translate-x-4 transition-all duration-700">
+                <span>View Briefing Archive</span>
+                <div className="w-12 h-px bg-indigo-600 group-hover:w-20 transition-all duration-700" />
+                <ArrowRight size={20} />
+              </Link>
+            </motion.div>
+
+            {/* Blog Gateway */}
+            <motion.div 
+              initial={{ opacity: 0, x: 32 }} 
+              whileInView={{ opacity: 1, x: 0 }} 
+              viewport={{ once: true }}
+              className="group p-12 sm:p-20 bg-[#0a0f1a] rounded-6xl text-white hover:bg-[#0d1424] transition-all duration-[0.7s] hover:shadow-2xl relative overflow-hidden flex flex-col h-full"
+            >
+              <div className="absolute top-0 right-0 p-12 opacity-[0.03] group-hover:opacity-[0.08] transition-all duration-[2s] group-hover:rotate-12 transform scale-150">
+                <Globe size={200} />
+              </div>
+              <div className="w-20 h-20 bg-white/5 border border-white/10 text-emerald-400 rounded-4xl flex items-center justify-center mb-12 shadow-2xl transition-transform duration-700 group-hover:scale-105">
+                <Zap size={32} />
+              </div>
+              <h2 className="serif italic text-4xl sm:text-6xl font-black mb-10 tracking-tighter leading-tight text-white">Technical <br/> Deep Dives.</h2>
+              <p className="text-indigo-100/40 text-xl leading-relaxed font-light italic mb-16 flex-1">
+                Long-form analysis on Basel IV capital adequacy, cross-border trade program mechanics, and digital asset residency.
+              </p>
+              <Link to="/blogs" className="inline-flex items-center space-x-6 text-emerald-400 text-ui-caps group-hover:translate-x-4 transition-all duration-700">
+                <span>Access Knowledge Hub</span>
+                <div className="w-12 h-px bg-emerald-400 group-hover:w-20 transition-all duration-700" />
+                <ArrowRight size={20} />
+              </Link>
+            </motion.div>
+
           </div>
         </div>
       </section>
 
-      {/* Blogs */}
-      <section id="blogs" className="py-24 px-8 lg:px-24 border-t border-slate-100 bg-slate-50 scroll-mt-24">
-        <div className="max-w-7xl mx-auto space-y-12">
-          <div className="flex justify-between items-end">
-            <h2 className="serif text-5xl text-slate-900 font-bold">Blogs</h2>
-            <p className="text-slate-500 text-sm hidden md:block uppercase tracking-widest font-bold">Deep-dive technical analysis</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            {[
-              { date: 'Oct 24, 2024', title: 'The Convergence of Private Equity and Digital Collateral', cat: 'Alpha' },
-              { date: 'Oct 18, 2024', title: 'Managing Sovereign Debt Nodes in Volatile Corridors', cat: 'Strategy' }
-            ].map((blog, i) => (
-              <div key={i} className="group cursor-pointer">
-                <div className="aspect-[16/9] bg-white border border-slate-200 rounded-[40px] mb-8 overflow-hidden relative shadow-sm group-hover:shadow-xl transition-all">
-                   <div className="absolute inset-0 bg-gradient-to-t from-slate-100 to-transparent opacity-20" />
-                   <div className="absolute top-8 right-8 w-12 h-12 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center text-slate-900 shadow-md opacity-0 group-hover:opacity-100 transition-all">
-                      <ExternalLink size={18} />
-                   </div>
-                </div>
-                <div className="flex items-center space-x-4 mb-4">
-                   <span className="text-indigo-600 font-bold text-[10px] uppercase tracking-widest">{blog.cat}</span>
-                   <span className="text-slate-400 font-mono text-[10px]">{blog.date}</span>
-                </div>
-                <h3 className="text-2xl text-slate-900 font-bold group-hover:text-indigo-600 transition-colors leading-tight">
-                  {blog.title}
-                </h3>
+      {/* Featured Insight Band */}
+      <section className="py-32 px-6 sm:px-10 lg:px-22 bg-[#fdfdfc] border-t border-slate-50 relative overflow-hidden">
+        <div className="section-container">
+           <div className="flex items-center space-x-4 mb-12">
+             <History size={16} className="text-slate-300" />
+             <p className="text-ui-caps text-slate-400">Latest Intelligence Node</p>
+           </div>
+           <div className="bg-white border border-slate-100 p-10 sm:p-16 rounded-5xl shadow-xl flex flex-col lg:flex-row items-center gap-12 sm:gap-20 group">
+              <div className="lg:w-1/3 aspect-[4/5] bg-slate-50 rounded-4xl overflow-hidden shadow-inner flex items-center justify-center">
+                 <div className="text-center p-12">
+                    <span className="text-[64px] serif italic font-black text-slate-100 mb-4 block leading-none">042</span>
+                    <p className="text-ui-caps text-slate-300 tracking-[0.6em]">Alpha Node</p>
+                 </div>
               </div>
-            ))}
-          </div>
+              <div className="lg:w-2/3 space-y-8">
+                 <div className="flex items-center space-x-4">
+                    <span className="px-4 py-1.5 bg-indigo-50 text-indigo-600 rounded-full text-[10px] font-black uppercase tracking-widest">Macro Strategy</span>
+                    <span className="text-slate-300 font-mono text-xs">OCTOBER 24, 2024</span>
+                 </div>
+                 <h3 className="serif italic text-4xl sm:text-6xl text-[#0a0f1a] font-black tracking-tighter leading-tight group-hover:text-indigo-600 transition-colors">The Basel IV Node: Future-Proofing Sovereign Reserves.</h3>
+                 <p className="text-slate-500 text-xl leading-relaxed font-medium italic opacity-90 max-w-2xl">
+                    Our technical lead outlines the architectural shifts required to maintain capital adequacy tranches in the next regulatory epoch.
+                 </p>
+                 <Link to="/blogs" className="flex items-center text-indigo-600 text-ui-caps group/link">
+                    Read Analysis <ChevronRight size={16} className="ml-2 group-hover/link:translate-x-1 transition-transform" />
+                 </Link>
+              </div>
+           </div>
         </div>
       </section>
     </div>

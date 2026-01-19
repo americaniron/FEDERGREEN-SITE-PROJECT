@@ -5,7 +5,8 @@ import {
   ShieldAlert, Scale, Search, Target, Landmark, Coins, 
   Zap, Gem, Building, Building2, Cpu, Stethoscope, 
   Medal, Wind, Leaf, Utensils, Rocket, Clapperboard, 
-  Pickaxe, Factory, ShieldCheck, FileSearch, Lock
+  Pickaxe, Factory, ShieldCheck, FileSearch, Lock,
+  KeyRound, UserCheck, BarChart4
 } from 'lucide-react';
 
 export type NavItem = {
@@ -147,6 +148,16 @@ export const navConfig: NavItem[] = [
     children: [
       { id: 'newsletters', label: 'Newsletters', path: '/newsletters' },
       { id: 'blogs', label: 'Blogs', path: '/blogs' },
+    ]
+  },
+  {
+    id: 'portals',
+    label: 'Secure Access',
+    path: '/login',
+    icon: Lock,
+    children: [
+      { id: 'client-access', label: 'Client Node', path: '/client-portal', icon: UserCheck },
+      { id: 'investor-access', label: 'Investor Node', path: '/investor-portal', icon: BarChart4 },
     ]
   },
   {

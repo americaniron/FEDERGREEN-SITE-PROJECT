@@ -97,21 +97,26 @@ export const frameworkContent: Record<string, PageContent> = {
   },
   "/capital-advisory": {
     title: "Capital Advisory",
-    subheadline: "Elite strategic guidance for institutional tranches.",
+    subheadline: "Elite strategic guidance, risk hardening, and secured liquidity architecture.",
     overview: [
-      "Federgreen Capital Advisory operates at the highest tranches of corporate strategy. We provide the mapping required to navigate opaque global markets.",
-      "Our advisory nodes focus on target alpha achievement while maintaining absolute risk integrity."
+      "Federgreen Capital Advisory operates at the highest tranches of corporate strategy. We specialize in architecting the structural logic required to command capital in an era of fluid sovereignty and polymorphic risk.",
+      "Risk Mitigation: Our firm deploys proprietary heuristic scanners to map systemic vulnerabilities across global liquidity corridors. We build 'Hedge Nodes' that shield institutional portfolios from currency debasement and black-swan sovereign shifts.",
+      "Secured Depositor Programs: We architect bank-grade liquidity vehicles that turn idle cash reserves into high-alpha yield engines. These programs utilize Top-25 global bank instruments (SBLCs, BGs) as triple-redundant collateral to ensure principal protection.",
+      "Every advisory node is tailored to achieve target yield while maintaining absolute structural integrity."
     ],
-    deliverables: ["Macro Sentiment Pulse", "Alpha Strategy Memo", "Portfolio Integrity Audit"],
+    deliverables: ["Polymorphic Risk Assessment Node", "Secured Depositor Program (SDP) Prospectus", "Macro Sentiment Pulse", "Institutional Yield Waterfall Analysis"],
     methodology: [
-      "Node Audit: Reviewing existing capital architecture.",
-      "Heuristic Pivot: Identifying yield optimization opportunities.",
-      "Implementation Tranche: Executing on refined capital nodes."
+      "Threat Mapping: Identifying systemic and idiosyncratic risk nodes through global telemetry.",
+      "Collateral Hardening: Architecting underlying assets and instruments for secured programs.",
+      "Tranche Sequencing: Designing the exact priority flow of capital, yield, and recovery protocols."
     ],
-    whoItsFor: ["Family Offices", "Sovereign Funds", "Institutional HNWIs"],
-    outcomes: ["Optimized Alpha", "Hardened Risk Buffers", "Global Market Dominance"],
-    caseStudy: { title: "Global Family Office Realignment", description: "Navigated a 12-month restructuring of a multi-billion dollar diversified portfolio." },
-    faq: [{ q: "What is your minimum engagement AUM?", a: "Engagements typically initiate at the $50M tranche level." }]
+    whoItsFor: ["Sovereign Wealth Funds", "Multi-Family Offices", "Institutional HNWIs with Large Liquid Reserves"],
+    outcomes: ["Hardened Principal Protection", "Verified Institutional Yield Nodes", "Algorithmic Risk Neutralization"],
+    caseStudy: { title: "Sovereign Asset Hardening Node", description: "Designed a multi-tranche secured depositor program for a $2B sovereign reserve, incorporating automated risk mitigation buffers that protected principal against a 15% regional currency devaluation event while yielding a consistent 12% PA." },
+    faq: [
+      { q: "What is your minimum engagement AUM?", a: "Engagements typically initiate at the $50M tranche level." },
+      { q: "What collateral backs the Secured Depositor Programs?", a: "Programs are typically backed by Top-25 global bank instruments, gold tranches, or verified SBLC/BG nodes with absolute residency in sovereign vaults." }
+    ]
   },
   "/analysis": {
     title: "Analysis",
@@ -235,7 +240,7 @@ export const frameworkContent: Record<string, PageContent> = {
     deliverables: ["Full Due Diligence Report", "Red-Flag Matrix", "Counterparty Integrity Audit"],
     methodology: ["Information Request", "Heuristic Verification", "Node Cross-Referencing", "Final Memo Issuance"],
     whoItsFor: ["Acquirers", "Lead Investors", "Compliance Officers"],
-    outcomes: ["Absolute Deal Certainty", "Fraud Neutralization", "Valuation Accuracy"],
+    outcomes: ["Deal Certainty", "Fraud Neutralization", "Valuation Accuracy"],
     caseStudy: { title: "Cross-Border Acquisition Audit", description: "Identified undisclosed liabilities in a target firm, saving the client $30M in post-close losses." },
     faq: [{ q: "Do you handle legal due diligence?", a: "We focus on financial, operational, and integrity nodes; we work alongside legal counsel." }]
   },
@@ -571,7 +576,7 @@ export const frameworkContent: Record<string, PageContent> = {
     deliverables: ["Monetization Protocol", "Bridge Financing Node", "Exit Strategy Map"],
     methodology: ["Asset Review", "Provider Matching", "Structure Design", "Execution"],
     whoItsFor: ["Asset-Rich Enterprises", "HNWIs", "Trusts"],
-    outcomes: ["Immediate Cash Velocity", "Unlocked Asset Potential", "Reduced Holding Friction"],
+    outcomes: ["Cash Velocity", "Unlocked Asset Potential", "Reduced Holding Friction"],
     caseStudy: { title: "Mineral Rights Monetization", description: "Secured $15M in bridge capital against a client's untapped mining title." },
     faq: [{ q: "How fast is the process?", a: "Institutional tranches typically take 30-45 business days." }]
   },
@@ -599,7 +604,7 @@ export const frameworkContent: Record<string, PageContent> = {
     deliverables: ["Art Asset Audit", "Monetization Blueprint", "Fund Structure Memo"],
     methodology: ["Valuation Sequence", "Security Node Setup", "Lender Matching", "Closing"],
     whoItsFor: ["Collectors", "Museums", "Art Funds"],
-    outcomes: ["Unlocked Capital in Tangible Assets", "Secured Asset Residency", "Verified Node Value"],
+    outcomes: ["Unlocked Capital", "Secured Asset Residency", "Verified Node Value"],
     caseStudy: { title: "Private Collection Fund", description: "Architected a $100M art fund for a family office legacy." },
     faq: [{ q: "Do you handle physical transport?", a: "We advise on the financial tranches; physical nodes are handled via specialized partners." }]
   },
