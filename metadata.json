@@ -1,0 +1,8 @@
+{
+  "name": "Federgreen Consulting Enterprise",
+  "description": "A high-fidelity financial enterprise platform for Federgreen Consulting, specializing in capital advisory, KYC/AML compliance, and AI-driven business valuation.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
