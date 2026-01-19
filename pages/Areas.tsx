@@ -6,6 +6,7 @@ import {
   Building2, Cpu, Stethoscope, Medal, Wind, Leaf, Utensils, 
   Gem, Rocket, Clapperboard, Pickaxe, Factory, ChevronRight 
 } from 'lucide-react';
+import NodeDiscovery from '../components/NodeDiscovery';
 
 const Areas: React.FC = () => {
   const sectors = [
@@ -111,6 +112,15 @@ const Areas: React.FC = () => {
               Federgreen Coverage spans 12 core institutional nodes. We provide the structural logic and sector-specific artifacts required for high-velocity capital deployment.
             </p>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Institutional Node Locator Section */}
+      <section className="py-24 sm:py-32 px-6 sm:px-10 lg:px-32 bg-white">
+        <div className="max-w-[1600px] mx-auto">
+          <div className="mb-20">
+             <NodeDiscovery />
+          </div>
         </div>
       </section>
 

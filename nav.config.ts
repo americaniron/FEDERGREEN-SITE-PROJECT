@@ -84,7 +84,14 @@ export const navConfig: NavItem[] = [
     path: '/areas',
     icon: Globe,
     children: [
-      { id: 'real-estate', label: 'Real Estate', path: '/area-real-estate' },
+      { 
+        id: 'real-estate', 
+        label: 'Real Estate', 
+        path: '/area-real-estate',
+        children: [
+          { id: 're-underwriting', label: 'RE Underwriting Node', path: '/underwriting' }
+        ]
+      },
       { id: 'technology', label: 'Technology', path: '/area-technology' },
       { id: 'health', label: 'Health', path: '/area-health' },
       { id: 'sports', label: 'Sports', path: '/area-sports' },
@@ -109,7 +116,7 @@ export const navConfig: NavItem[] = [
       { id: 'private-funds', label: 'Private Funds', path: '/funding-private-funds' },
       { 
         id: 'new-world-finance', 
-        label: 'New World of Finance', // Placeholder name as requested
+        label: 'New World of Finance',
         path: '/new-world-finance',
         children: [
           { id: 'hybrid', label: 'Hybrid', path: '/funding-hybrid' },

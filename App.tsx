@@ -10,6 +10,7 @@ import {
 import { navConfig, NavItem } from './nav.config';
 import { askConcierge, generateSpeech } from './services/geminiService';
 import GlobalSearch from './components/GlobalSearch';
+import AIConcierge from './components/AIConcierge';
 
 // --- Reusable Brand Components ---
 const LogoMark: React.FC<{ className?: string, color?: string }> = ({ className = "w-5 h-5", color = "#0a0f1a" }) => (
@@ -83,7 +84,16 @@ const SidebarNavItem: React.FC<{
   const navigate = useNavigate();
   const hasChildren = item.children && item.children.length > 0;
   const isExpanded = expandedIds.includes(item.id);
-  const isActive = location.pathname === item.path || (hasChildren && item.children!.some(c => location.pathname === c.path));
+  
+  const isDeepActive = useCallback((node: NavItem): boolean => {
+    if (location.pathname === node.path) return true;
+    if (node.children) {
+      return node.children.some(child => isDeepActive(child));
+    }
+    return false;
+  }, [location.pathname]);
+
+  const isActive = isDeepActive(item);
 
   const handleLabelClick = (e: React.MouseEvent) => {
     if (hasChildren) {
@@ -101,27 +111,31 @@ const SidebarNavItem: React.FC<{
         whileTap={{ scale: 0.98 }}
         onClick={handleLabelClick}
         aria-expanded={hasChildren ? isExpanded : undefined}
-        className={`w-full flex items-center justify-between px-6 py-4 rounded-[1.5rem] cursor-pointer transition-all duration-700 group focus:outline-none
+        className={`w-full flex items-center justify-between px-6 py-4 rounded-[1.5rem] cursor-pointer transition-all duration-500 group focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/50
           ${depth === 0 ? 'text-[12px] font-black uppercase tracking-[0.3em]' : 'text-[13px] font-semibold tracking-tight'}
           ${isActive 
-            ? 'bg-[#0a0f1a] text-white shadow-2xl active-nav-glow scale-[1.02]' 
-            : 'text-slate-400 hover:bg-slate-50/80 hover:text-[#0a0f1a] hover:translate-x-1.5'}
+            ? 'bg-[#0a0f1a] text-white shadow-xl active-nav-glow scale-[1.01]' 
+            : 'text-slate-400 hover:bg-slate-50 hover:text-[#0a0f1a] hover:translate-x-1'}
         `}
         style={{ marginLeft: `${depth * 16}px`, width: `calc(100% - ${depth * 16}px)` }}
       >
         <div className="flex items-center space-x-4">
-          {item.icon && depth === 0 && <item.icon size={18} className={`${isActive ? 'text-emerald-400' : 'text-slate-300 group-hover:text-[#0a0f1a] transition-colors duration-500'}`} />}
+          {item.icon && depth === 0 && (
+            <item.icon size={18} className={`${isActive ? 'text-emerald-400' : 'text-slate-300 group-hover:text-[#0a0f1a] transition-colors duration-300'}`} />
+          )}
           <span>{item.label}</span>
         </div>
-        {hasChildren && <ChevronDown size={14} className={`transition-transform duration-[0.8s] ${isExpanded ? 'rotate-180' : ''} ${isActive ? 'text-white' : 'text-slate-200'}`} />}
+        {hasChildren && (
+          <ChevronDown size={14} className={`transition-transform duration-500 ease-in-out ${isExpanded ? 'rotate-180' : ''} ${isActive ? 'text-white' : 'text-slate-200'}`} />
+        )}
       </motion.button>
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {hasChildren && isExpanded && (
           <motion.div 
             initial={{ height: 0, opacity: 0 }} 
             animate={{ height: 'auto', opacity: 1 }} 
             exit={{ height: 0, opacity: 0 }} 
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             className="overflow-hidden border-l-2 border-slate-50 ml-10 my-2 space-y-1.5"
           >
             {item.children?.map(child => (
@@ -139,7 +153,37 @@ const PublicLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const location = useLocation();
 
-  const [expandedIds, setExpandedIds] = useState<string[]>(['home']);
+  const [expandedIds, setExpandedIds] = useState<string[]>(() => {
+    const saved = localStorage.getItem('sidebar_expanded_nodes');
+    return saved ? JSON.parse(saved) : ['home'];
+  });
+
+  // Sync state to localStorage
+  useEffect(() => {
+    localStorage.setItem('sidebar_expanded_nodes', JSON.stringify(expandedIds));
+  }, [expandedIds]);
+
+  // Auto-expand parents of active route
+  useEffect(() => {
+    const findParentIds = (items: NavItem[], targetPath: string, currentParents: string[] = []): string[] | null => {
+      for (const item of items) {
+        if (item.path === targetPath) return currentParents;
+        if (item.children) {
+          const result = findParentIds(item.children, targetPath, [...currentParents, item.id]);
+          if (result) return result;
+        }
+      }
+      return null;
+    };
+
+    const parents = findParentIds(navConfig, location.pathname);
+    if (parents) {
+      setExpandedIds(prev => {
+        const newSet = new Set([...prev, ...parents]);
+        return Array.from(newSet);
+      });
+    }
+  }, [location.pathname]);
 
   const toggleId = (id: string) => setExpandedIds(prev => 
     prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
@@ -156,7 +200,7 @@ const PublicLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => 
         <div className="px-10 py-8">
           <button 
             onClick={() => setIsSearchOpen(true)}
-            className="w-full flex items-center space-x-4 px-5 py-4 bg-slate-50 border border-slate-100 rounded-[1.2rem] text-slate-400 hover:text-[#0a0f1a] transition-all duration-700 text-[12px] font-black uppercase tracking-[0.2em] group shadow-inner"
+            className="w-full flex items-center space-x-4 px-5 py-4 bg-slate-50 border border-slate-100 rounded-[1.2rem] text-slate-400 hover:text-[#0a0f1a] transition-all duration-700 text-[12px] font-black uppercase tracking-[0.2em] group shadow-inner focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/30"
           >
             <Search size={16} className="text-slate-300 group-hover:text-indigo-500 transition-colors" />
             <span>Search Command</span>
@@ -211,6 +255,7 @@ const PublicLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => 
         <div className="flex-1">
           {children}
         </div>
+        <AIConcierge />
         <footer className="bg-white border-t border-slate-50 py-24 px-10 lg:px-32 relative overflow-hidden">
           <div className="absolute top-0 right-0 p-32 opacity-[0.02] pointer-events-none transform scale-150 rotate-12"><Landmark size={400} /></div>
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-12 sm:gap-20">
@@ -262,6 +307,10 @@ const App: React.FC = () => (
           <Route path="/funding" element={<PageTransition><Funding /></PageTransition>} />
           <Route path="/media" element={<PageTransition><Media /></PageTransition>} />
           <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
+          
+          <Route path="/underwriting" element={<PageTransition><Underwriting /></PageTransition>} />
+          <Route path="/valuation" element={<PageTransition><Valuation /></PageTransition>} />
+          <Route path="/kyc-node" element={<PageTransition><KYC /></PageTransition>} />
           
           <Route path="/testimonials" element={<PageTransition><Testimonials /></PageTransition>} />
           <Route path="/privacy" element={<PageTransition><Privacy /></PageTransition>} />

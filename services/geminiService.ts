@@ -317,23 +317,25 @@ export const getBusinessValuation = async (data: ValuationData) => {
 };
 
 /**
- * FLASH NODE: Gemini Flash Lite
+ * ANALYTICAL NODE: Gemini 3 Pro
  */
 export const underwriteRealEstate = async (deal: RealEstateDeal) => {
-  // Corrected model name from gemini-2.5-flash-lite-latest to gemini-flash-lite-latest per guidelines
   const response = await ai.models.generateContent({
-    model: 'gemini-flash-lite-latest',
-    contents: `Underwrite this real estate deal: ${JSON.stringify(deal)}.`,
+    model: 'gemini-3-pro-preview',
+    contents: `Underwrite this real estate deal: ${JSON.stringify(deal)}. Perform institutional-grade sensitivity analysis and use Search grounding for location-specific market sentiment.`,
     config: {
+      systemInstruction: "You are a Senior Credit Officer at Federgreen. Provide a rigorous, unbiased underwriting artifact.",
+      thinkingConfig: { thinkingBudget: 16384 },
+      tools: [{ googleSearch: {} }],
       responseMimeType: "application/json",
       responseSchema: {
         type: Type.OBJECT,
         properties: {
-          recommendation: { type: Type.STRING }, 
-          dscr: { type: Type.NUMBER },
-          estimatedRoi: { type: Type.NUMBER },
-          keyRisks: { type: Type.ARRAY, items: { type: Type.STRING } },
-          summary: { type: Type.STRING }
+          recommendation: { type: Type.STRING, description: "Final credit decision: e.g., 'APPROVE WITH CONDITIONS', 'REJECT', etc." }, 
+          dscr: { type: Type.NUMBER, description: "Debt Service Coverage Ratio" },
+          estimatedRoi: { type: Type.NUMBER, description: "Estimated Return on Investment (percentage)" },
+          keyRisks: { type: Type.ARRAY, items: { type: Type.STRING }, description: "Core risk factors" },
+          summary: { type: Type.STRING, description: "Executive summary of the underwriting node" }
         },
         required: ["recommendation", "dscr", "estimatedRoi", "keyRisks", "summary"]
       }
