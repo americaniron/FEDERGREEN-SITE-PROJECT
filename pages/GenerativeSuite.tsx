@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FileUp, ScanSearch, Clapperboard, Loader2, AlertTriangle, CheckCircle2, Film, Image as ImageIcon } from 'lucide-react';
 import { analyzeImage, generateVideo, getVideoOperation } from '../services/geminiService';
 
-const LogoMark: React.FC<{ className?: string, color?: string }> = ({ className = "w-5 h-5", color = "#111e35" }) => (
+const LogoMark: React.FC<{ className?: string, color?: string }> = ({ className = "w-5 h-5", color = "#1b2e2a" }) => (
     <svg viewBox="0 0 100 100" fill="none" className={className}>
       <rect width="100" height="100" rx="24" fill={color} />
       <path d="M30 30H70V38H40V48H65V56H40V72H30V30Z" fill="white" />
@@ -126,97 +126,97 @@ const Workshop: React.FC = () => {
   };
 
   return (
-    <div className="bg-ivory min-h-screen py-32 px-10">
+    <div className="bg-brand-stone min-h-screen py-32 px-10">
       <div className="max-w-7xl mx-auto">
         <div className="mb-24 text-center">
             <LogoMark className="w-20 h-20 mx-auto mb-8 opacity-20" />
-          <h1 className="serif text-7xl text-oxford-navy font-black leading-[0.9] tracking-tighter mb-8 italic">
-            Generative FEDERGREEN Workshop
+          <h1 className="serif text-7xl text-brand-primary font-black leading-[0.9] tracking-tighter mb-8 italic">
+            Generative AI Workshop
           </h1>
-          <p className="text-slate-500 text-xl max-w-2xl leading-relaxed font-medium mx-auto">
+          <p className="text-brand-slate text-xl max-w-2xl leading-relaxed font-medium mx-auto">
             Institutional-grade generative tools for asset analysis and strategic visualization in our secure digital workshop.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           {/* Image Analyzer */}
-          <div className="bg-white p-12 rounded-[3.5rem] border border-slate-100 shadow-xl space-y-10">
+          <div className="bg-white p-12 rounded-[3.5rem] border border-brand-stone shadow-xl space-y-10">
             <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 flex items-center justify-center bg-slate-50 border border-slate-100 rounded-2xl text-oxford-navy"><ImageIcon size={24}/></div>
+                <div className="w-12 h-12 flex items-center justify-center bg-brand-stone border border-brand-stone rounded-2xl text-brand-primary"><ImageIcon size={24}/></div>
                 <div>
-                    <h2 className="serif text-3xl font-black text-oxford-navy italic tracking-tight">Document & Asset Analyzer</h2>
-                    <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Powered by FEDERGREEN 3 Pro</p>
+                    <h2 className="serif text-3xl font-black text-brand-primary italic tracking-tight">Document & Asset Analyzer</h2>
+                    <p className="text-[10px] text-brand-slate font-black uppercase tracking-widest">Powered by Gemini 3 Pro</p>
                 </div>
             </div>
             
-            <div className="aspect-video bg-slate-50 border-2 border-dashed border-slate-200 rounded-3xl flex items-center justify-center relative">
+            <div className="aspect-video bg-brand-stone/40 border-2 border-dashed border-brand-stone/80 rounded-3xl flex items-center justify-center relative">
                 <input type="file" accept="image/*" onChange={handleImageUpload} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
                 {imagePreview ? (
                     <img src={imagePreview} alt="upload preview" className="w-full h-full object-contain rounded-3xl" />
                 ) : (
-                    <div className="text-center text-slate-400 space-y-4">
+                    <div className="text-center text-brand-slate/40 space-y-4">
                         <FileUp size={48} className="mx-auto" />
                         <p className="font-bold text-sm">Upload Document or Asset Image</p>
                     </div>
                 )}
             </div>
             
-            <textarea value={imagePrompt} onChange={e => setImagePrompt(e.target.value)} placeholder="Enter analysis prompt (e.g., 'Analyze the cap table for dilution risk...')" rows={3} className="w-full bg-slate-50 p-4 rounded-xl text-sm outline-none border border-transparent focus:border-oxford-navy transition-all"/>
+            <textarea value={imagePrompt} onChange={e => setImagePrompt(e.target.value)} placeholder="Enter analysis prompt (e.g., 'Analyze the cap table for dilution risk...')" rows={3} className="w-full bg-brand-stone/30 p-4 rounded-xl text-sm outline-none border border-transparent focus:border-brand-accent transition-all"/>
             
-            <button onClick={handleAnalyzeImage} disabled={!imageFile || !imagePrompt || isAnalyzing} className="w-full py-5 bg-oxford-navy text-white rounded-2xl font-black uppercase text-[11px] tracking-widest flex items-center justify-center hover:bg-forest-green transition-all disabled:opacity-30">
+            <button onClick={handleAnalyzeImage} disabled={!imageFile || !imagePrompt || isAnalyzing} className="w-full py-5 bg-brand-primary text-brand-stone rounded-2xl font-black uppercase text-[11px] tracking-widest flex items-center justify-center hover:bg-brand-accent transition-all disabled:opacity-30">
                 {isAnalyzing ? <Loader2 className="animate-spin" /> : <><ScanSearch size={16} className="mr-3"/>Analyze Image</>}
             </button>
 
             <AnimatePresence>
-                {imageResult && <motion.div initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} className="p-6 bg-slate-50 rounded-2xl border border-slate-100 text-sm text-slate-700 italic font-medium whitespace-pre-wrap">{imageResult}</motion.div>}
+                {imageResult && <motion.div initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} className="p-6 bg-brand-stone rounded-2xl border border-brand-stone/20 text-sm text-brand-slate italic font-medium whitespace-pre-wrap">{imageResult}</motion.div>}
             </AnimatePresence>
           </div>
 
           {/* Video Generator */}
-          <div className="bg-[#111e35] text-white p-12 rounded-[3.5rem] shadow-2xl space-y-10">
+          <div className="bg-brand-primary text-brand-stone p-12 rounded-[3.5rem] shadow-2xl space-y-10 border border-brand-accent/10">
             <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 flex items-center justify-center bg-white/10 border border-white/20 rounded-2xl"><Film size={24}/></div>
+                <div className="w-12 h-12 flex items-center justify-center bg-brand-stone/10 border border-brand-stone/20 rounded-2xl"><Film size={24}/></div>
                 <div>
                     <h2 className="serif text-3xl font-black italic tracking-tight">Strategic Vision Synthesizer</h2>
-                    <p className="text-[10px] text-emerald-400 font-black uppercase tracking-widest">Powered by Veo 3.1</p>
+                    <p className="text-[10px] text-brand-accent font-black uppercase tracking-widest">Powered by Veo 3.1</p>
                 </div>
             </div>
             
-            <div className="aspect-video bg-white/5 border-2 border-dashed border-white/20 rounded-3xl flex items-center justify-center">
+            <div className="aspect-video bg-brand-stone/5 border-2 border-dashed border-brand-stone/20 rounded-3xl flex items-center justify-center">
                 {isGenerating ? (
-                     <div className="text-center text-white/70 space-y-4 p-4">
-                        <Loader2 size={48} className="mx-auto animate-spin text-emerald-400" />
+                     <div className="text-center text-brand-stone/70 space-y-4 p-4">
+                        <Loader2 size={48} className="mx-auto animate-spin text-brand-accent" />
                         <p className="font-bold text-sm uppercase tracking-widest">{generationStatus}</p>
                     </div>
                 ) : videoResult ? (
                     <video src={videoResult} controls autoPlay loop className="w-full h-full object-contain rounded-3xl" />
                 ) : (
-                    <div className="text-center text-white/30 space-y-4">
+                    <div className="text-center text-brand-stone/30 space-y-4">
                         <Clapperboard size={48} className="mx-auto" />
                         <p className="font-bold text-sm">Video Artifact Will Appear Here</p>
                     </div>
                 )}
             </div>
 
-            <textarea value={videoPrompt} onChange={e => setVideoPrompt(e.target.value)} placeholder="Enter video prompt (e.g., 'A cinematic shot of a new real estate development...')" rows={3} className="w-full bg-white/5 p-4 rounded-xl text-sm outline-none border border-transparent focus:border-emerald-400 transition-all"/>
+            <textarea value={videoPrompt} onChange={e => setVideoPrompt(e.target.value)} placeholder="Enter video prompt (e.g., 'A cinematic shot of a new real estate development...')" rows={3} className="w-full bg-brand-stone/5 p-4 rounded-xl text-sm outline-none border border-transparent focus:border-brand-accent transition-all"/>
             
             <div className="flex items-center justify-between">
-                <p className="text-[10px] font-black uppercase tracking-widest text-white/50">Aspect Ratio</p>
+                <p className="text-[10px] font-black uppercase tracking-widest text-brand-stone/50">Aspect Ratio</p>
                 <div className="flex items-center space-x-2">
-                    <button onClick={()=>setAspectRatio('16:9')} className={`px-4 py-2 text-xs font-bold rounded-lg ${aspectRatio === '16:9' ? 'bg-emerald-600 text-white' : 'bg-white/10 text-white/50'}`}>16:9</button>
-                    <button onClick={()=>setAspectRatio('9:16')} className={`px-4 py-2 text-xs font-bold rounded-lg ${aspectRatio === '9:16' ? 'bg-emerald-600 text-white' : 'bg-white/10 text-white/50'}`}>9:16</button>
+                    <button onClick={()=>setAspectRatio('16:9')} className={`px-4 py-2 text-xs font-bold rounded-lg ${aspectRatio === '16:9' ? 'bg-brand-accent text-brand-primary' : 'bg-brand-stone/10 text-brand-stone/50'}`}>16:9</button>
+                    <button onClick={()=>setAspectRatio('9:16')} className={`px-4 py-2 text-xs font-bold rounded-lg ${aspectRatio === '9:16' ? 'bg-brand-accent text-brand-primary' : 'bg-brand-stone/10 text-brand-stone/50'}`}>9:16</button>
                 </div>
             </div>
             
             {!hasApiKey || apiKeyError ? (
-                <div className="p-6 bg-rose-500/10 border border-rose-500 rounded-2xl text-center space-y-4">
-                    <AlertTriangle className="mx-auto text-rose-400" />
-                    <h4 className="text-sm font-bold">API Key Required for Veo</h4>
-                    <p className="text-xs text-rose-200/70">Video generation requires a user-selected API key from a paid GCP project. Please <a href="https://ai.google.dev/gemini-api/docs/billing" target="_blank" rel="noreferrer" className="underline">review billing documentation</a>.</p>
-                    <button onClick={handleSelectKey} className="w-full py-4 bg-rose-50 text-white rounded-xl font-black uppercase text-[11px] tracking-widest">Select API Key</button>
+                <div className="p-6 bg-brand-accent/10 border border-brand-accent/20 rounded-2xl text-center space-y-4">
+                    <AlertTriangle className="mx-auto text-brand-accent" />
+                    <h4 className="text-sm font-bold text-brand-accent">API Key Required for Veo</h4>
+                    <p className="text-xs text-brand-stone/50">Video generation requires a user-selected API key from a paid GCP project. Please <a href="https://ai.google.dev/gemini-api/docs/billing" target="_blank" rel="noreferrer" className="underline">review billing documentation</a>.</p>
+                    <button onClick={handleSelectKey} className="w-full py-4 bg-brand-accent text-brand-primary rounded-xl font-black uppercase text-[11px] tracking-widest">Select API Key</button>
                 </div>
             ) : (
-                <button onClick={handleGenerateVideo} disabled={!videoPrompt || isGenerating} className="w-full py-5 bg-emerald-600 text-white rounded-2xl font-black uppercase text-[11px] tracking-widest flex items-center justify-center hover:bg-emerald-500 transition-all disabled:opacity-30">
+                <button onClick={handleGenerateVideo} disabled={!videoPrompt || isGenerating} className="w-full py-5 bg-brand-accent text-brand-primary rounded-2xl font-black uppercase text-[11px] tracking-widest flex items-center justify-center hover:bg-brand-stone transition-all disabled:opacity-30">
                     {isGenerating ? <Loader2 className="animate-spin" /> : <><Clapperboard size={16} className="mr-3"/>Generate Video</>}
                 </button>
             )}

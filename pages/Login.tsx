@@ -48,7 +48,7 @@ const Login: React.FC = () => {
       >
         <div className="p-12 text-center">
           <LogoMark className="w-16 h-16 mx-auto mb-6" color="white"/>
-          <h1 className="serif text-4xl font-black text-white italic tracking-tighter">Sovereign Portal</h1>
+          <h1 className="serif text-4xl font-black text-white italic tracking-tighter">Investors Portal</h1>
           <p className="text-indigo-100/60 mt-2 font-medium">Institutional Gateway Access</p>
         </div>
 

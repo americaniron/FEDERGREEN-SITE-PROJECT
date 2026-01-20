@@ -3,73 +3,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Federgreen Consulting | Sovereign Capital Advisory & Institutional Growth</title>
+    <meta name="description" content="Sovereign-grade capital architecture and institutional liquidity tranches for global enterprises and strategic syndicates.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'brand-primary': '#1e3a5f', // Deep Steel Blue
-                        'brand-primary-dark': '#132841',
-                        'brand-accent': '#c5a059', // Refined Gold
-                        'brand-emerald': '#164e42', // Forest Slate
-                        'brand-stone': '#f9f7f2', // Stone Ivory
-                        'brand-slate': '#334155'
-                    },
-                    spacing: {
-                        '18': '4.5rem', // 72px
-                        '22': '5.5rem', // 88px
-                        '30': '7.5rem', // 120px
-                        '34': '8.5rem', // 136px
-                        '42': '10.5rem', // 168px
-                    },
-                    borderRadius: {
-                        '4xl': '2rem',
-                        '5xl': '2.5rem',
-                        '6xl': '3rem',
-                    }
-                }
-            }
+      tailwind.config = {
+        theme: {
+          extend: {
+            spacing: {
+              '18': '4.5rem',
+              '22': '5.5rem',
+              '30': '7.5rem',
+            },
+            colors: {
+              brand: {
+                primary: '#422A5A', // Purple Main
+                'primary-dark': '#3C2454', // Deeper Purple
+                accent: '#50346C', // Primary Button Purple
+                'accent-deep': '#222222', // Primary Text Near-Black
+                emerald: '#50346C', // Highlight Purple
+                stone: '#FCFCFC', // Soft White
+                slate: '#646268', // Muted Text Gray
+              }
+            },
+            borderRadius: {
+              '4xl': '2rem',
+              '5xl': '2.5rem',
+              '6xl': '3rem',
+              '7xl': '4rem',
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              serif: ['Playfair Display', 'serif'],
+            },
+          }
         }
+      }
     </script>
     <style>
         :root {
-            --brand-primary: #1e3a5f; 
-            --brand-secondary: #475569;
-            --brand-emerald: #164e42;
-            --brand-paper: #f9f7f2;
-            --brand-accent-gold: #c5a059;
-            --brand-border: rgba(30, 58, 95, 0.08);
+            --brand-primary: #422A5A;
+            --brand-accent: #50346C;
+            --brand-accent-deep: #222222;
+            --brand-stone: #FCFCFC;
             --transition-premium: cubic-bezier(0.16, 1, 0.3, 1);
         }
         
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--brand-paper);
-            color: #334155;
+            background-color: var(--brand-stone);
+            color: #222222;
             -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
-            letter-spacing: -0.011em;
-            padding-bottom: env(safe-area-inset-bottom);
+            line-height: 1.6;
         }
         
         .serif { font-family: 'Playfair Display', serif; }
         
-        h1 { font-size: clamp(3.5rem, 8vw, 10rem); line-height: 0.88; letter-spacing: -0.04em; }
-        h2 { font-size: clamp(2.5rem, 6vw, 6rem); line-height: 0.95; letter-spacing: -0.03em; }
-        h3 { font-size: clamp(1.8rem, 4vw, 3.5rem); line-height: 1.1; letter-spacing: -0.02em; }
+        /* Responsive Typography Scale */
+        h1 { font-size: clamp(2.5rem, 10vw, 10rem); line-height: 0.95; font-weight: 900; letter-spacing: -0.04em; margin-bottom: 1.5rem; }
+        h2 { font-size: clamp(2rem, 6vw, 6rem); line-height: 1.05; font-weight: 900; letter-spacing: -0.03em; margin-bottom: 1.25rem; }
+        h3 { font-size: clamp(1.5rem, 4vw, 3rem); line-height: 1.2; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 1rem; }
         
-        .text-ui-caps { font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.4em; }
-
+        /* Institutional Glass & Textures */
         .glass-premium {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(40px) saturate(160%);
-            border: 1px solid rgba(30, 58, 95, 0.1);
+            background: rgba(252, 252, 252, 0.85); /* Slightly higher opacity for mobile legibility */
+            backdrop-filter: blur(24px) saturate(140%);
+            border: 1px solid #DCDCDC;
+        }
+
+        @media (min-width: 1024px) {
+            .glass-premium { background: rgba(252, 252, 252, 0.75); }
         }
 
         .grain-overlay {
@@ -77,41 +85,69 @@
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
             z-index: 9999;
-            opacity: 0.025;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        ::-webkit-scrollbar { width: 6px; }
+        .section-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            width: 100%;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .section-container { padding-left: 3rem; padding-right: 3rem; }
+        }
+
+        /* Focus Styles */
+        a:focus-visible, button:focus-visible {
+            outline: 2px solid var(--brand-accent);
+            outline-offset: 4px;
+        }
+
+        /* Sophisticated Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        @media (min-width: 768px) { ::-webkit-scrollbar { width: 6px; } }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 20px; border: 2px solid var(--brand-paper); }
+        ::-webkit-scrollbar-thumb { background: #DCDCDC; border-radius: 12px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--brand-accent); }
 
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        .section-container {
-            max-width: 1600px;
-            margin-left: auto;
-            margin-right: auto;
-            padding-left: 2rem;
-            padding-right: 2rem;
+        /* Micro-interactions */
+        .hover-lift { transition: transform 0.6s var(--transition-premium); }
+        @media (hover: hover) {
+            .hover-lift:hover { transform: translateY(-8px); }
         }
-        @media (min-width: 1024px) {
-            .section-container {
-                padding-left: 5rem;
-                padding-right: 5rem;
-            }
+
+        .text-ui-caps {
+          font-size: 10px;
+          @media (min-width: 768px) { font-size: 11px; }
+          font-weight: 900;
+          text-transform: uppercase;
+          letter-spacing: 0.4em;
         }
+
+        @keyframes sub-pulse {
+          0%, 100% { opacity: 0.4; transform: scale(1); }
+          50% { opacity: 0.7; transform: scale(1.05); }
+        }
+        .animate-sub-pulse { animation: sub-pulse 4s ease-in-out infinite; }
     </style>
 <script type="importmap">
 {
   "imports": {
-    "@google/genai": "https://esm.sh/@google/genai@^1.37.0",
     "react": "https://esm.sh/react@^19.2.3",
     "react/": "https://esm.sh/react@^19.2.3/",
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
-    "framer-motion": "https://esm.sh/framer-motion@^12.27.1",
+    "@google/genai": "https://esm.sh/@google/genai@^1.37.0",
+    "react-dom": "https://esm.sh/react-dom@^19.2.3",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react-router-dom": "https://esm.sh/react-router-dom@^7.12.0"
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.12.0",
+    "framer-motion": "https://esm.sh/framer-motion@^11.0.0",
+    "lucide-react": "https://esm.sh/lucide-react@^0.454.0"
   }
 }
 </script>
