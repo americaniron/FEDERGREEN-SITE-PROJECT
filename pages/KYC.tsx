@@ -36,14 +36,14 @@ const KYC: React.FC = () => {
       }
 
       setFileName(file.name);
-      startAIScan(file.name);
+      startFEDERGREENScan(file.name);
     }
   };
 
-  const startAIScan = (name: string) => {
+  const startFEDERGREENScan = (name: string) => {
     setStatus('pre-scanning');
     setProgress(0);
-    setScanMessage('AI Node initializing heuristic layer...');
+    setScanMessage('FEDERGREEN Node initializing heuristic layer...');
 
     let currentProgress = 0;
     const interval = setInterval(() => {
@@ -51,7 +51,7 @@ const KYC: React.FC = () => {
       setProgress(currentProgress);
 
       if (currentProgress === 15) setScanMessage('Parsing metadata signatures & header logic...');
-      if (currentProgress === 40) setScanMessage('AI executing polymorphic pattern detection...');
+      if (currentProgress === 40) setScanMessage('FEDERGREEN executing polymorphic pattern detection...');
       if (currentProgress === 65) setScanMessage('Cross-referencing global sovereign threat databases...');
       if (currentProgress === 85) setScanMessage('Finalizing cryptographic integrity tranches...');
 
@@ -129,13 +129,13 @@ const KYC: React.FC = () => {
               </div>
               <h1 className="serif text-brand-primary font-black leading-none tracking-tightest mb-10 italic">Identity <br/> Onboarding.</h1>
               <p className="text-brand-slate text-xl leading-relaxed font-medium italic">
-                Federgreen Consulting utilizes sovereign AI-nodes to isolate, encrypt, and validate institutional documentation against global AMLD6 tranches.
+                Federgreen Consulting utilizes sovereign FEDERGREEN-nodes to isolate, encrypt, and validate institutional documentation against global AMLD6 tranches.
               </p>
             </motion.div>
 
             <div className="space-y-8 lg:space-y-10">
               {[
-                { title: 'Heuristic Validation', desc: 'Real-time AI scanning of tranches for polymorphic threats.', icon: Shield },
+                { title: 'Heuristic Validation', desc: 'Real-time FEDERGREEN scanning of tranches for polymorphic threats.', icon: Shield },
                 { title: 'AES-256 GCM Encryption', desc: 'Military-grade cryptographic wrapping for all persistent data.', icon: Lock },
                 { title: 'Sovereign Storage', desc: 'Documents are archived in decentralized, isolated vault nodes.', icon: FileCheck }
               ].map((item, i) => (

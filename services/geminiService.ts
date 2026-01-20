@@ -25,25 +25,25 @@ STRICT OPERATIONAL RULES:
    - Visualize in a deep purple and soft white aesthetic.`;
 
 // Helper to create a fresh instance of GoogleGenAI to ensure the latest API key is used
-const getAi = () => new GoogleGenAI({ apiKey: process.env.API_KEY as string });
+const getFedergreen = () => new GoogleGenAI({ apiKey: process.env.API_KEY as string });
 
 export const checkApiStatus = async (): Promise<boolean> => {
   try {
-    const ai = getAi();
-    const response = await ai.models.generateContent({
+    const federgreen = getFedergreen();
+    const response = await federgreen.models.generateContent({
       model: 'gemini-3-flash-preview',
       contents: 'ping',
     });
     return !!response.text;
   } catch (error) {
-    console.error("API Status Check Failed:", error);
+    console.error("FEDERGREEN Status Check Failed:", error);
     return false;
   }
 };
 
 export const askConcierge = async (query: string, history: any[]) => {
-  const ai = getAi();
-  const response = await ai.models.generateContent({
+  const federgreen = getFedergreen();
+  const response = await federgreen.models.generateContent({
     model: 'gemini-3-flash-preview',
     contents: [
       ...history,
@@ -58,8 +58,8 @@ export const askConcierge = async (query: string, history: any[]) => {
 };
 
 export const generateSpeech = async (text: string) => {
-  const ai = getAi();
-  const response = await ai.models.generateContent({
+  const federgreen = getFedergreen();
+  const response = await federgreen.models.generateContent({
     model: "gemini-2.5-flash-preview-tts",
     contents: [{ parts: [{ text }] }],
     config: {
@@ -75,8 +75,8 @@ export const generateSpeech = async (text: string) => {
 };
 
 export const analyzeImage = async (base64ImageData: string, mimeType: string, prompt: string) => {
-  const ai = getAi();
-  const response = await ai.models.generateContent({
+  const federgreen = getFedergreen();
+  const response = await federgreen.models.generateContent({
     model: 'gemini-3-pro-preview',
     contents: { parts: [{ inlineData: { data: base64ImageData, mimeType } }, { text: prompt }] },
     config: {
@@ -89,8 +89,8 @@ export const analyzeImage = async (base64ImageData: string, mimeType: string, pr
 
 export const generateVideo = async (prompt: string, aspectRatio: '16:9' | '9:16') => {
   // Always create a fresh instance for Veo models to use the latest user-selected key
-  const ai = getAi();
-  return await ai.models.generateVideos({
+  const federgreen = getFedergreen();
+  return await federgreen.models.generateVideos({
     model: 'veo-3.1-fast-generate-preview',
     prompt,
     config: { numberOfVideos: 1, resolution: '720p', aspectRatio }
@@ -98,13 +98,13 @@ export const generateVideo = async (prompt: string, aspectRatio: '16:9' | '9:16'
 };
 
 export const getVideoOperation = async (operation: any) => {
-  const ai = getAi();
-  return await ai.operations.getVideosOperation({ operation });
+  const federgreen = getFedergreen();
+  return await federgreen.operations.getVideosOperation({ operation });
 };
 
 export const generateBusinessNarrative = async (concept: string, industry: string) => {
-  const ai = getAi();
-  const response = await ai.models.generateContent({
+  const federgreen = getFedergreen();
+  const response = await federgreen.models.generateContent({
     model: 'gemini-3-pro-preview',
     contents: `Strategic narrative for ${industry}: ${concept}.`,
     config: {
@@ -116,8 +116,8 @@ export const generateBusinessNarrative = async (concept: string, industry: strin
 };
 
 export const simulateInvestorQA = async (topic: string) => {
-  const ai = getAi();
-  const response = await ai.models.generateContent({
+  const federgreen = getFedergreen();
+  const response = await federgreen.models.generateContent({
     model: 'gemini-3-flash-preview',
     contents: `Simulate 3 Tier-1 VC questions for: ${topic}.`,
   });
@@ -125,8 +125,8 @@ export const simulateInvestorQA = async (topic: string) => {
 };
 
 export const optimizeCapitalStructure = async (ebitda: number, assets: number, goal: string) => {
-  const ai = getAi();
-  const response = await ai.models.generateContent({
+  const federgreen = getFedergreen();
+  const response = await federgreen.models.generateContent({
     model: 'gemini-3-pro-preview',
     contents: `Optimize capital for $${ebitda}M EBITDA, $${assets}M Assets. Goal: ${goal}.`,
   });
@@ -134,8 +134,8 @@ export const optimizeCapitalStructure = async (ebitda: number, assets: number, g
 };
 
 export const generateClientBriefing = async (clientData: any) => {
-    const ai = getAi();
-    const response = await ai.models.generateContent({
+    const federgreen = getFedergreen();
+    const response = await federgreen.models.generateContent({
         model: 'gemini-3-flash-preview',
         contents: `Client briefing: ${JSON.stringify(clientData)}.`,
     });
@@ -143,8 +143,8 @@ export const generateClientBriefing = async (clientData: any) => {
 };
 
 export const generateInvestorBriefing = async (investorProfile: any) => {
-    const ai = getAi();
-    const response = await ai.models.generateContent({
+    const federgreen = getFedergreen();
+    const response = await federgreen.models.generateContent({
         model: 'gemini-3-pro-preview',
         contents: `Market briefing: ${JSON.stringify(investorProfile)}.`,
         config: { tools: [{ googleSearch: {} }] }
@@ -153,8 +153,8 @@ export const generateInvestorBriefing = async (investorProfile: any) => {
 };
 
 export const analyzeInvestmentDeal = async (investorProfile: any, dealData: any) => {
-    const ai = getAi();
-    const response = await ai.models.generateContent({
+    const federgreen = getFedergreen();
+    const response = await federgreen.models.generateContent({
         model: 'gemini-3-pro-preview',
         contents: `Due diligence: ${JSON.stringify(dealData)} for ${JSON.stringify(investorProfile)}.`,
     });
@@ -162,8 +162,8 @@ export const analyzeInvestmentDeal = async (investorProfile: any, dealData: any)
 };
 
 export const getMarketSentiment = async (prices: any) => {
-  const ai = getAi();
-  const response = await ai.models.generateContent({
+  const federgreen = getFedergreen();
+  const response = await federgreen.models.generateContent({
     model: 'gemini-3-flash-preview',
     contents: `Institutional sentiment for: ${JSON.stringify(prices)}.`,
     config: { tools: [{ googleSearch: {} }] }
@@ -180,8 +180,8 @@ export const getMarketSentiment = async (prices: any) => {
 };
 
 export const findNearbyHubs = async (coords: { lat: number, lng: number }, sector: string) => {
-  const ai = getAi();
-  const response = await ai.models.generateContent({
+  const federgreen = getFedergreen();
+  const response = await federgreen.models.generateContent({
     model: "gemini-2.5-flash",
     contents: `Locate ${sector} institutional hubs near ${coords.lat}, ${coords.lng}.`,
     config: {
@@ -199,8 +199,8 @@ export const findNearbyHubs = async (coords: { lat: number, lng: number }, secto
 };
 
 export const getBusinessValuation = async (data: ValuationData) => {
-  const ai = getAi();
-  const response = await ai.models.generateContent({
+  const federgreen = getFedergreen();
+  const response = await federgreen.models.generateContent({
     model: 'gemini-3-pro-preview',
     contents: `Deep-dive valuation: ${JSON.stringify(data)}.`,
     config: {
@@ -222,8 +222,8 @@ export const getBusinessValuation = async (data: ValuationData) => {
 };
 
 export const underwriteRealEstate = async (deal: RealEstateDeal) => {
-  const ai = getAi();
-  const response = await ai.models.generateContent({
+  const federgreen = getFedergreen();
+  const response = await federgreen.models.generateContent({
     model: 'gemini-flash-lite-latest',
     contents: `Underwrite RE deal: ${JSON.stringify(deal)}.`,
     config: {
@@ -245,8 +245,8 @@ export const underwriteRealEstate = async (deal: RealEstateDeal) => {
 };
 
 export const summarizePortalDocument = async (docName: string, context: string) => {
-    const ai = getAi();
-    const response = await ai.models.generateContent({
+    const federgreen = getFedergreen();
+    const response = await federgreen.models.generateContent({
         model: 'gemini-3-flash-preview',
         contents: `Summarize artifact "${docName}" within project context: ${context}.`,
     });
@@ -254,8 +254,8 @@ export const summarizePortalDocument = async (docName: string, context: string) 
 };
 
 export const draftAdvisorResponse = async (msgBody: string, status: string) => {
-    const ai = getAi();
-    const response = await ai.models.generateContent({
+    const federgreen = getFedergreen();
+    const response = await federgreen.models.generateContent({
         model: 'gemini-3-flash-preview',
         contents: `Draft professional reply to: "${msgBody}". Project status: ${status}.`,
     });

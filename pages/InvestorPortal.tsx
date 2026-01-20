@@ -32,7 +32,7 @@ const InvestorPortal: React.FC = () => {
                 const res = await generateInvestorBriefing(user);
                 setBriefing(res);
             } catch (e) {
-                setBriefing("AI Briefing Node offline. Market sentiment analysis is currently unavailable.");
+                setBriefing("FEDERGREEN Briefing Node offline. Market sentiment analysis is currently unavailable.");
             } finally {
                 setLoadingBriefing(false);
             }
@@ -52,7 +52,7 @@ const InvestorPortal: React.FC = () => {
         const res = await analyzeInvestmentDeal(user, deal);
         setDealAnalysis(prev => ({...prev, [deal.id]: res}));
       } catch (e) {
-        setDealAnalysis(prev => ({...prev, [deal.id]: "AI Analysis Failed: Could not run due diligence simulation."}));
+        setDealAnalysis(prev => ({...prev, [deal.id]: "FEDERGREEN Analysis Failed: Could not run due diligence simulation."}));
       } finally {
         setAnalyzingDeal(null);
       }
@@ -126,7 +126,7 @@ const InvestorPortal: React.FC = () => {
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-2 space-y-8">
-                        {/* AI Briefing */}
+                        {/* FEDERGREEN Briefing */}
                         <motion.div initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} className="bg-[#111e35] text-white p-10 rounded-3xl shadow-2xl shadow-indigo-900/20">
                             <div className="flex items-center space-x-3 mb-6">
                                 <Bot className="text-emerald-400" />
@@ -158,7 +158,7 @@ const InvestorPortal: React.FC = () => {
                                   </div>
                                   {dealAnalysis[deal.id] ? renderAnalysis(dealAnalysis[deal.id]) : (
                                     <button onClick={() => handleAnalyzeDeal(deal)} disabled={analyzingDeal === deal.id} className="w-full py-3 bg-white text-slate-900 border border-slate-200 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all flex items-center justify-center disabled:opacity-50">
-                                      {analyzingDeal === deal.id ? <><Loader2 className="animate-spin mr-2" size={12}/> Running Due Diligence Node</> : 'Execute AI Analysis'}
+                                      {analyzingDeal === deal.id ? <><Loader2 className="animate-spin mr-2" size={12}/> Running Due Diligence Node</> : 'Execute FEDERGREEN Analysis'}
                                     </button>
                                   )}
                                 </div>

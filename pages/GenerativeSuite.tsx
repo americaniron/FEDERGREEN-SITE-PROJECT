@@ -131,7 +131,7 @@ const Workshop: React.FC = () => {
         <div className="mb-24 text-center">
             <LogoMark className="w-20 h-20 mx-auto mb-8 opacity-20" />
           <h1 className="serif text-7xl text-brand-primary font-black leading-[0.9] tracking-tighter mb-8 italic">
-            Generative AI Workshop
+            Generative FEDERGREEN Workshop
           </h1>
           <p className="text-brand-slate text-xl max-w-2xl leading-relaxed font-medium mx-auto">
             Institutional-grade generative tools for asset analysis and strategic visualization in our secure digital workshop.
@@ -145,7 +145,7 @@ const Workshop: React.FC = () => {
                 <div className="w-12 h-12 flex items-center justify-center bg-brand-stone border border-brand-stone rounded-2xl text-brand-primary"><ImageIcon size={24}/></div>
                 <div>
                     <h2 className="serif text-3xl font-black text-brand-primary italic tracking-tight">Document & Asset Analyzer</h2>
-                    <p className="text-[10px] text-brand-slate font-black uppercase tracking-widest">Powered by Gemini 3 Pro</p>
+                    <p className="text-[10px] text-brand-slate font-black uppercase tracking-widest">Powered by FEDERGREEN Analyst Engine</p>
                 </div>
             </div>
             

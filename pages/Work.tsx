@@ -56,16 +56,16 @@ const Work: React.FC = () => {
         </div>
       </section>
 
-      {/* AI Financial Tools Section */}
+      {/* FEDERGREEN Financial Tools Section */}
       <section className="py-24 px-8 lg:px-24 bg-slate-50/50 border-t border-slate-100">
         <div className="max-w-7xl mx-auto">
             <div className="text-center max-w-2xl mx-auto mb-16">
                 <div className="flex justify-center mb-6">
                     <ApiStatusIndicator status={apiStatus} />
                 </div>
-                <h2 className="serif text-5xl text-slate-900 font-bold mb-6">AI Financial Tools</h2>
+                <h2 className="serif text-5xl text-slate-900 font-bold mb-6">FEDERGREEN Financial Tools</h2>
                 <p className="text-slate-500 text-lg">
-                    Leverage our proprietary AI nodes to generate institutional-grade financial artifacts and strategic insights in real-time.
+                    Leverage our proprietary FEDERGREEN nodes to generate institutional-grade financial artifacts and strategic insights in real-time.
                 </p>
             </div>
 
@@ -87,7 +87,7 @@ const Work: React.FC = () => {
                     },
                     { 
                         title: "Capital Structure Optimizer", 
-                        desc: "Model and optimize your capital stack with AI-driven recommendations.",
+                        desc: "Model and optimize your capital stack with FEDERGREEN-driven recommendations.",
                         icon: BarChart3,
                         path: "/financials",
                         accent: "text-emerald-600"
@@ -108,7 +108,7 @@ const Work: React.FC = () => {
                             <h3 className="text-xl text-slate-900 font-bold mb-4">{tool.title}</h3>
                             <p className="text-slate-500 text-sm leading-relaxed mb-8">{tool.desc}</p>
                             <div className="flex items-center text-indigo-600 font-black text-[10px] uppercase tracking-widest group-hover:translate-x-2 transition-transform">
-                                Access AI Node <ArrowRight className="ml-2" size={14} />
+                                Access FEDERGREEN Node <ArrowRight className="ml-2" size={14} />
                             </div>
                         </Link>
                     </motion.div>

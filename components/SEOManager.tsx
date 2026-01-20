@@ -21,7 +21,7 @@ const METADATA_MAP: Record<string, MetaData> = {
     description: 'A portfolio of sophisticated financial artifacts, strategic narratives, and capital stack optimizations.'
   },
   '/workshop': {
-    title: 'Generative AI Workshop | Federgreen Consulting',
+    title: 'Generative FEDERGREEN Workshop | Federgreen Consulting',
     description: 'Institutional-grade generative tools for asset analysis and strategic vision synthesis in our secure workshop.'
   },
   '/services': {
@@ -58,7 +58,7 @@ const METADATA_MAP: Record<string, MetaData> = {
   },
   '/kyc-node': {
     title: 'Identity Onboarding | Federgreen Consulting',
-    description: 'Secure, AI-powered compliance transmission for sovereign-grade identity verification.'
+    description: 'Secure, FEDERGREEN-powered compliance transmission for sovereign-grade identity verification.'
   },
   '/login': {
     title: 'Institutional Gateway | Federgreen Consulting',

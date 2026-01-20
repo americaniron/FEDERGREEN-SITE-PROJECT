@@ -75,11 +75,11 @@ const KnowledgeHub: React.FC = () => {
             </div>
 
             <div className="bg-indigo-900 p-8 rounded-3xl text-white shadow-xl">
-              <h4 className="font-bold text-xl mb-4">Ask Our Senior AI Analyst</h4>
+              <h4 className="font-bold text-xl mb-4">Ask Our Senior FEDERGREEN Analyst</h4>
               <p className="text-indigo-200 text-sm mb-6 leading-relaxed">
                 Need immediate insight on a specific asset class? Use our context-aware financial engine.
               </p>
-              <textarea placeholder="e.g. Current liquidity of USDT trade programs..." className="w-full bg-white/10 border border-white/20 rounded-xl p-3 text-sm text-white placeholder-white/40 mb-4 h-24 outline-none focus:border-white transition-all"></textarea>
+              <textarea placeholder="e.g. Current liquidity of USDT trade programs..." className="w-full bg-white/10 border border-white/20 rounded-xl p-3 text-sm text-white placeholder:text-white/40 mb-4 h-24 outline-none focus:border-white transition-all"></textarea>
               <button className="w-full bg-emerald-700 text-white font-bold py-4 rounded-xl hover:bg-emerald-600 transition-all uppercase text-xs tracking-widest">Submit Query</button>
             </div>
           </aside>

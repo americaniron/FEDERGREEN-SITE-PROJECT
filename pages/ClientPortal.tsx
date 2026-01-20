@@ -16,7 +16,7 @@ const LogoMark: React.FC<{ className?: string, color?: string }> = ({ className 
     </svg>
 );
 
-type WidgetId = 'ai-briefing' | 'project-metrics' | 'document-vault' | 'advisor-comms';
+type WidgetId = 'federgreen-briefing' | 'project-metrics' | 'document-vault' | 'advisor-comms';
 
 interface Widget {
   id: WidgetId;
@@ -26,7 +26,7 @@ interface Widget {
 }
 
 const ALL_WIDGETS: Widget[] = [
-  { id: 'ai-briefing', label: 'Sovereign Briefing', icon: Bot, description: 'Real-time AI status assessment' },
+  { id: 'federgreen-briefing', label: 'Sovereign Briefing', icon: Bot, description: 'Real-time FEDERGREEN status assessment' },
   { id: 'project-metrics', label: 'Node Metrics', icon: BarChart2, description: 'Project status and milestones' },
   { id: 'document-vault', label: 'Secure Vault', icon: FileText, description: 'Encrypted document access' },
   { id: 'advisor-comms', label: 'Advisor Comms', icon: MessageSquare, description: 'Direct senior advisory link' },
@@ -40,7 +40,7 @@ const ClientPortal: React.FC = () => {
     const [isConfigOpen, setIsConfigOpen] = useState(false);
     const [activeWidgets, setActiveWidgets] = useState<WidgetId[]>(() => {
         const saved = localStorage.getItem('federgreen-client-widgets');
-        return saved ? JSON.parse(saved) : ['ai-briefing', 'project-metrics', 'document-vault', 'advisor-comms'];
+        return saved ? JSON.parse(saved) : ['federgreen-briefing', 'project-metrics', 'document-vault', 'advisor-comms'];
     });
     
     const projectData = {
@@ -57,7 +57,7 @@ const ClientPortal: React.FC = () => {
                 const res = await generateClientBriefing(projectData);
                 setBriefing(res);
             } catch (e) {
-                setBriefing("AI Briefing Node offline. Please check critical notices manually.");
+                setBriefing("FEDERGREEN Briefing Node offline. Please check critical notices manually.");
             } finally {
                 setLoadingBriefing(false);
             }
@@ -129,7 +129,7 @@ const ClientPortal: React.FC = () => {
                                 <div className="absolute top-3 right-3 w-2 h-2 bg-brand-accent rounded-full border-2 border-white" />
                             </button>
                             <div className="w-14 h-14 bg-brand-primary rounded-2xl flex items-center justify-center text-brand-accent font-black text-lg shadow-xl shadow-indigo-900/30">
-                               AI
+                               FG
                             </div>
                         </div>
                     </div>
@@ -139,7 +139,7 @@ const ClientPortal: React.FC = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
                     <div className="lg:col-span-8 space-y-10">
                         <AnimatePresence mode="popLayout">
-                            {isWidgetActive('ai-briefing') && (
+                            {isWidgetActive('federgreen-briefing') && (
                                 <motion.div 
                                     layout
                                     initial={{ opacity: 0, y: 20 }}

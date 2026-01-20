@@ -19,14 +19,14 @@ const FrameworkPage: React.FC = () => {
   const content: PageContent | undefined = frameworkContent[path];
   const [activeSection, setActiveSection] = useState('overview');
   
-  // AI Tool State
-  const [aiLoading, setAiLoading] = useState(false);
-  const [aiResult, setAiResult] = useState<string | null>(null);
+  // FEDERGREEN Tool State
+  const [federgreenLoading, setFedergreenLoading] = useState(false);
+  const [federgreenResult, setFedergreenResult] = useState<string | null>(null);
   const [toolInput, setToolInput] = useState({ v1: '', v2: '', v3: '' });
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['overview', 'deliverables', 'methodology', 'segments', 'case-study', 'faq', 'ai-node'];
+      const sections = ['overview', 'deliverables', 'methodology', 'segments', 'case-study', 'faq', 'federgreen-node'];
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
@@ -53,23 +53,23 @@ const FrameworkPage: React.FC = () => {
   }
 
   const handleToolExecute = async () => {
-    setAiLoading(true);
-    setAiResult(null);
+    setFedergreenLoading(true);
+    setFedergreenResult(null);
     try {
       if (path === '/business-plans') {
         const res = await generateBusinessNarrative(toolInput.v1, toolInput.v2);
-        setAiResult(res);
+        setFedergreenResult(res);
       } else if (path === '/investor-decks') {
         const res = await simulateInvestorQA(toolInput.v1);
-        setAiResult(res);
+        setFedergreenResult(res);
       } else if (path === '/financials') {
         const res = await optimizeCapitalStructure(Number(toolInput.v1), Number(toolInput.v2), toolInput.v3);
-        setAiResult(res);
+        setFedergreenResult(res);
       }
     } catch (e) {
-      setAiResult("Node execution failed. Institutional firewall active.");
+      setFedergreenResult("Node execution failed. Institutional firewall active.");
     } finally {
-      setAiLoading(false);
+      setFedergreenLoading(false);
     }
   };
 
@@ -81,8 +81,8 @@ const FrameworkPage: React.FC = () => {
              <input value={toolInput.v1} onChange={e => setToolInput({...toolInput, v1: e.target.value})} placeholder="Venture Concept" className="bg-white/5 border border-white/10 rounded-xl p-4 text-sm outline-none focus:border-emerald-400 transition-all text-white placeholder:text-white/30" />
              <input value={toolInput.v2} onChange={e => setToolInput({...toolInput, v2: e.target.value})} placeholder="Industry Node" className="bg-white/5 border border-white/10 rounded-xl p-4 text-sm outline-none focus:border-emerald-400 transition-all text-white placeholder:text-white/30" />
           </div>
-          <button onClick={handleToolExecute} disabled={aiLoading} className="w-full py-4 bg-emerald-600 rounded-xl font-black uppercase text-[9px] md:text-[10px] tracking-widest hover:bg-emerald-500 transition-all flex items-center justify-center">
-            {aiLoading ? <Loader2 className="animate-spin mr-2" size={14} /> : <FileText className="mr-2" size={14} />}
+          <button onClick={handleToolExecute} disabled={federgreenLoading} className="w-full py-4 bg-emerald-600 rounded-xl font-black uppercase text-[9px] md:text-[10px] tracking-widest hover:bg-emerald-500 transition-all flex items-center justify-center">
+            {federgreenLoading ? <Loader2 className="animate-spin mr-2" size={14} /> : <FileText className="mr-2" size={14} />}
             Generate Strategic Narrative
           </button>
         </div>
@@ -92,8 +92,8 @@ const FrameworkPage: React.FC = () => {
       return (
         <div className="space-y-4 md:space-y-6">
           <input value={toolInput.v1} onChange={e => setToolInput({...toolInput, v1: e.target.value})} placeholder="Primary Pitch Thesis" className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-sm outline-none focus:border-indigo-400 transition-all text-white placeholder:text-white/30" />
-          <button onClick={handleToolExecute} disabled={aiLoading} className="w-full py-4 bg-indigo-600 rounded-xl font-black uppercase text-[9px] md:text-[10px] tracking-widest hover:bg-indigo-500 transition-all flex items-center justify-center">
-            {aiLoading ? <Loader2 className="animate-spin mr-2" size={14} /> : <Presentation className="mr-2" size={14} />}
+          <button onClick={handleToolExecute} disabled={federgreenLoading} className="w-full py-4 bg-indigo-600 rounded-xl font-black uppercase text-[9px] md:text-[10px] tracking-widest hover:bg-indigo-500 transition-all flex items-center justify-center">
+            {federgreenLoading ? <Loader2 className="animate-spin mr-2" size={14} /> : <Presentation className="mr-2" size={14} />}
             Execute Q&A Simulation
           </button>
         </div>
@@ -107,8 +107,8 @@ const FrameworkPage: React.FC = () => {
              <input type="number" value={toolInput.v2} onChange={e => setToolInput({...toolInput, v2: e.target.value})} placeholder="Asset Value ($M)" className="bg-white/5 border border-white/10 rounded-xl p-4 text-sm outline-none focus:border-emerald-400 transition-all text-white placeholder:text-white/30" />
           </div>
           <input value={toolInput.v3} onChange={e => setToolInput({...toolInput, v3: e.target.value})} placeholder="Primary Capital Goal" className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-sm outline-none focus:border-emerald-400 transition-all text-white placeholder:text-white/30" />
-          <button onClick={handleToolExecute} disabled={aiLoading} className="w-full py-4 bg-emerald-700 rounded-xl font-black uppercase text-[9px] md:text-[10px] tracking-widest hover:bg-emerald-600 transition-all flex items-center justify-center">
-            {aiLoading ? <Loader2 className="animate-spin mr-2" size={14} /> : <BarChart3 className="mr-2" size={14} />}
+          <button onClick={handleToolExecute} disabled={federgreenLoading} className="w-full py-4 bg-emerald-700 rounded-xl font-black uppercase text-[9px] md:text-[10px] tracking-widest hover:bg-emerald-600 transition-all flex items-center justify-center">
+            {federgreenLoading ? <Loader2 className="animate-spin mr-2" size={14} /> : <BarChart3 className="mr-2" size={14} />}
             Optimize Capital Stack
           </button>
         </div>
@@ -124,7 +124,7 @@ const FrameworkPage: React.FC = () => {
     { id: 'deliverables', label: 'Deliverables' },
     { id: 'methodology', label: 'Methodology' },
     { id: 'segments', label: 'Target Segments' },
-    ...(isWorkSubPage ? [{ id: 'ai-node', label: 'AI Node' }] : []),
+    ...(isWorkSubPage ? [{ id: 'federgreen-node', label: 'FEDERGREEN Node' }] : []),
     { id: 'case-study', label: 'Case Analysis' },
     { id: 'faq', label: 'FAQ' },
   ];
@@ -186,9 +186,9 @@ const FrameworkPage: React.FC = () => {
           </div>
         </section>
 
-        {/* AI Integration Section */}
+        {/* FEDERGREEN Integration Section */}
         {isWorkSubPage && (
-          <section id="ai-node" className="px-6 md:px-12 lg:px-24 py-20 md:py-32 bg-brand-primary text-white border-y border-white/5 scroll-mt-32 relative overflow-hidden">
+          <section id="federgreen-node" className="px-6 md:px-12 lg:px-24 py-20 md:py-32 bg-brand-primary text-white border-y border-white/5 scroll-mt-32 relative overflow-hidden">
             <div className="absolute top-0 right-0 p-32 opacity-5 pointer-events-none rotate-12 hidden lg:block">
               <LogoMark className="w-96 h-96" color="white" />
             </div>
@@ -198,7 +198,7 @@ const FrameworkPage: React.FC = () => {
                   <LogoMark className="w-5 h-5" color="white" />
                   <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-brand-accent">Contextual Node Analysis</span>
                 </div>
-                <h2 className="serif text-4xl md:text-5xl font-bold mb-6 italic tracking-tight text-white">AI Financial Tool.</h2>
+                <h2 className="serif text-4xl md:text-5xl font-bold mb-6 italic tracking-tight text-white">FEDERGREEN Financial Tool.</h2>
                 <p className="text-indigo-100/60 text-base md:text-lg mb-10 italic leading-relaxed">
                   Executing strategic reasoning tranches using the Gemini Pro architecture. Map your specific node against global institutional data.
                 </p>
@@ -208,20 +208,20 @@ const FrameworkPage: React.FC = () => {
               <div className="lg:col-span-7">
                 <div className="h-full min-h-[350px] md:min-h-[400px] bg-white/5 rounded-[2.5rem] md:rounded-[3rem] border border-white/10 p-8 md:p-12 flex flex-col relative group">
                   <AnimatePresence mode="wait">
-                    {aiLoading ? (
+                    {federgreenLoading ? (
                       <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex-1 flex flex-col items-center justify-center space-y-6">
                         <Loader2 size={40} className="animate-spin text-brand-accent" />
                         <p className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-indigo-300 animate-pulse text-center">Syncing with Sovereign Intelligence Node...</p>
                       </motion.div>
-                    ) : aiResult ? (
+                    ) : federgreenResult ? (
                       <motion.div key="result" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex-1 flex flex-col">
                         <div className="flex justify-between items-center mb-6 md:mb-8 border-b border-white/10 pb-4 md:pb-6">
                           <p className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-brand-accent">Analysis Artifact</p>
-                          <button onClick={() => setAiResult(null)} className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-white/30 hover:text-white">Clear Node</button>
+                          <button onClick={() => setFedergreenResult(null)} className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-white/30 hover:text-white">Clear Node</button>
                         </div>
                         <div className="flex-1 overflow-y-auto max-h-[400px] md:max-h-[500px] pr-4 hide-scrollbar">
                            <p className="text-indigo-50 text-base md:text-lg font-medium leading-relaxed italic whitespace-pre-wrap">
-                             {aiResult}
+                             {federgreenResult}
                            </p>
                         </div>
                         <div className="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-white/10 text-[8px] md:text-[9px] font-mono text-white/40 uppercase tracking-widest flex justify-between">

@@ -1,5 +1,5 @@
 
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import React, { ErrorInfo, ReactNode } from 'react';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 
 interface Props {
@@ -15,7 +15,8 @@ interface State {
  * Institutional Error Boundary
  * Orchestrates fail-safe rendering for the sovereign node tree.
  */
-export class ErrorBoundary extends Component<Props, State> {
+// Explicitly using React.Component ensures the compiler correctly identifies the class as a React component having state and props
+export class ErrorBoundary extends React.Component<Props, State> {
   // Fix: Explicitly initialize state through constructor to ensure proper inheritance typing in strict environments
   constructor(props: Props) {
     super(props);
@@ -24,16 +25,18 @@ export class ErrorBoundary extends Component<Props, State> {
     };
   }
 
+  // Fix: Static method correctly typed to return State for getDerivedStateFromError
   public static getDerivedStateFromError(error: Error): State {
     return { hasError: true, error };
   }
 
+  // Fix: Lifecycle method correctly typed with Error and ErrorInfo
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('Institutional Node Crash:', error, errorInfo);
   }
 
   public render(): ReactNode {
-    // Fix: Destructuring state to safely access error and hasError properties
+    // Fix: Destructuring state to safely access error and hasError properties which are now correctly identified via React.Component inheritance
     const { hasError, error } = this.state;
 
     if (hasError) {
@@ -69,7 +72,7 @@ export class ErrorBoundary extends Component<Props, State> {
       );
     }
 
-    // Fix: Accessing children via this.props which is properly inherited from React.Component<Props, State>
+    // Fix: Accessing children via this.props which is correctly inherited and typed from React.Component<Props, State>
     return this.props.children;
   }
 }

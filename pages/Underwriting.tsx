@@ -214,7 +214,7 @@ const Underwriting: React.FC = () => {
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 <span className="flex items-center justify-center relative z-10">
-                  {loading ? 'Executing AI Underwrite Node...' : 'Initiate Memo Generation'}
+                  {loading ? 'Executing FEDERGREEN Underwrite Node...' : 'Initiate Memo Generation'}
                   {!loading && <ArrowRight className="ml-4 group-hover:translate-x-2 transition-transform" size={18} />}
                 </span>
               </button>
@@ -295,7 +295,7 @@ const Underwriting: React.FC = () => {
                   </div>
 
                   <div className="mt-12 md:mt-16 pt-8 md:pt-10 border-t border-slate-50 flex flex-col sm:flex-row justify-between items-center text-[10px] font-black text-slate-300 uppercase tracking-[0.4em] space-y-4 sm:space-y-0 relative z-10">
-                    <span className="flex items-center"><LogoMark className="mr-2 w-3 h-3" color="#6366f1" /> Analytical Engine: Gemini-3-Institutional</span>
+                    <span className="flex items-center"><LogoMark className="mr-2 w-3 h-3" color="#6366f1" /> Analytical Engine: FEDERGREEN-Institutional</span>
                     <span>Node FC-ZURICH | Verified </span>
                   </div>
                 </motion.div>
